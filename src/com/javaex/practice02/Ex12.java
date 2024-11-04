@@ -25,9 +25,9 @@ public class Ex12 {
 		if (num1 < num2 && num1 < num3) {
 			System.out.println("가장 작은수는" + num1 + "입니다");
 		} else if (num2 < num1 && num2 < num3) {
-			System.out.println("가장 작은수는" + num1 + "입니다");
+			System.out.println("가장 작은수는" + num2 + "입니다");
 		} else if (num3 < num2 && num3 < num1) {
-			System.out.println("가장 작은수는" + num1 + "입니다");
+			System.out.println("가장 작은수는" + num3 + "입니다");
 		} else {
 			System.out.println("세 숫자는 모두 달라야 합니다.");
 		}
