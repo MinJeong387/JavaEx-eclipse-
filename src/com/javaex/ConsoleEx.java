@@ -1,6 +1,7 @@
 package com.javaex;
 
-//Tip : Ctrl+Shift+O
+
+// Tip : Ctrl+Shift+O
 import java.util.Scanner;
 
 // Tip2: Ctrl+Space : 코드 자동 완성
