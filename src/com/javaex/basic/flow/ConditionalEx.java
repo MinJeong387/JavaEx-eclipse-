@@ -8,7 +8,8 @@ public class ConditionalEx {
 // 		ifEx();
 //		ifEx2();
 //		ifEx3();
-		ifPractice01();
+//		ifPractice01();
+		switchEx();
 
 	}
 
@@ -72,10 +73,10 @@ public class ConditionalEx {
 
 	private static void ifPractice01() {
 		// 과목번호 입력 -> 강의실 번호 출력
-		// 1 -> R101입니다.
-		// 2 -> R202입니다.
-		// 3 -> R303입니다.
-		// 4 -> R404입니다.
+		// 1 -> R101호 입니다.
+		// 2 -> R202호 입니다.
+		// 3 -> R303호 입니다.
+		// 4 -> R404호 입니다.
 		System.out.println("과목을 선택하세요");
 		System.out.println("(1.자바 2.C 3.C++ 4.파이썬)");
 
@@ -97,5 +98,34 @@ public class ConditionalEx {
 
 		scanner.close();
 	}
+	
+	private static void switchEx() {
+		// ifPractice01 -> switch ~ case 문으로
+		System.out.println("과목을 선택하세요");
+		System.out.println("(1.자바 2.C 3.C++ 4.파이썬)");
 
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("과목번호 : ");
+		int subj = scanner.nextInt();
+		
+		// 변수 값에 따른 조건 분기
+		switch (subj) {
+		case 1: // subj ==1 이면
+			System.out.println("R101호 입니다.");
+			break; 									// 잊지말자 break
+		case 2: // subj ==2 이면
+			System.out.println("R202호 입니다.");
+			break;
+		case 3: // subj ==3 이면
+			System.out.println("R303호 입니다.");
+			break;
+		case 4: // subj ==4 이면
+			System.out.println("R404호 입니다.");
+			break;
+		default: // else
+			System.out.println("상담원에게 문의하세요.");
+			break;		
+		}
+		scanner.close();		
+	}
 }
