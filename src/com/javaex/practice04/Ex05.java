@@ -21,6 +21,8 @@ public class Ex05 {
 		double ave = (num1 + num2 + num3 + num4 + num5) / 5;
 
 		System.out.print("평균은 " + ave + "입니다.");
+		
+		scanner.close();
 	}
 
 }
