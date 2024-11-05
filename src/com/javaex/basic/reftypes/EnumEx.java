@@ -4,7 +4,7 @@ public class EnumEx {
 
 	public static void main(String[] args) {
 
-		// usingEnum();
+		usingEnum();
 
 		// switchPractice()의 enum 버전
 		switchEnumPractice();
@@ -72,6 +72,7 @@ public class EnumEx {
 			break;
 
 		}
+
 		System.out.println(day.name() + "에는 " + action);
 
 	}
