@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>javaex</name>
+			<type>2</type>
+			<location>C:/Users/user/OneDrive/문서/GitHub/JavaEx/src/com/javaex</location>
+		</link>
+	</linkedResources>
 </projectDescription>
