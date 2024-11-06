@@ -8,7 +8,8 @@ public class ArrayEx {
 
 		// usingArray();
 		// multiDimArrayEx();
-		arrayCopyForEx();
+		// arrayCopyForEx();
+		arrayCopySystem();
 
 	}
 
@@ -96,6 +97,24 @@ public class ArrayEx {
 		}
 
 		System.out.println("복사본:" + Arrays.toString(target));
+
+	}
+
+	private static void arrayCopySystem() {
+		// 손쉬운 배열의 복제
+		int[] source = { 1, 2, 3 };
+		System.out.println("원본:" + Arrays.toString(source));
+
+		int[] target = new int[10];
+		
+		// 복제
+		System.arraycopy(source, 			// 원본배열
+							0, 				// 시작 인덱스
+							target,			//  타겟 배열
+							4, 				// 타겟 배열의 시작 인덱스
+							source.length); // 복사할 길이
+		
+		System.out.println("복사본:"+Arrays.toString(target));
 
 	}
 
