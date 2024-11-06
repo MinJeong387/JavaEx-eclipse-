@@ -114,7 +114,7 @@ public class ArrayEx {
 							4, 				// 타겟 배열의 시작 인덱스
 							source.length); // 복사할 길이
 		
-		System.out.println("복사본:"+Arrays.toString(target));
+		System.out.println("복사본:"+Arrays.toString(target)); 
 
 	}
 
