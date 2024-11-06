@@ -7,7 +7,8 @@ public class ArrayEx {
 	public static void main(String[] args) {
 
 		// usingArray();
-		multiDimArrayEx();
+		// multiDimArrayEx();
+		arrayCopyForEx();
 
 	}
 
@@ -77,6 +78,24 @@ public class ArrayEx {
 		}
 
 		System.out.println("합산 결과: " + sum);
+
+	}
+
+	private static void arrayCopyForEx() {
+		// 배열은 크기 변경이 안된다
+		// 새 배열을 생성하고 복사
+		int source[] = { 1, 2, 3 };
+		System.out.println("원본:" + Arrays.toString(source));
+
+		// 7개의 빈 공간이 더 필요
+		int target[] = new int[10];
+		// 복사
+		for (int i = 0; i < source.length; ++i) {
+			target[i] = source[i];
+
+		}
+
+		System.out.println("복사본:" + Arrays.toString(target));
 
 	}
 

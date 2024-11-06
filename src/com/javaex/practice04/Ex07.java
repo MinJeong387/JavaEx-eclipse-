@@ -19,17 +19,16 @@ public class Ex07 {
 
 		/*
 		 * int num0 = cost/wonArray[0]; 
+		 * 
 		 * int num1 = (cost%wonArray[0])/wonArray[1]; 
 		 * int num2 = (cost%wonArray[0]%wonArray[1])/wonArray[2]; 
 		 * int num3 = (cost%wonArray[0]%wonArray[1]%wonArray[2])/wonArray[3];  ....
 		 */
 
 		int numArray[] = new int[10];
-
 		numArray[0] = cost / wonArray[0];
 
 		for (int i = 1; i <= wonArray.length - 1; i++) {
-
 			for (int j = 0; j <= (i - 1); j++) {
 
 				cost = cost % wonArray[j];
