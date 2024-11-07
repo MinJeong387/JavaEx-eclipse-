@@ -3,7 +3,8 @@ package com.javaex.oop.goods.v2;
 // Goods v2. 접근제한자
 class Goods {
 	// 필드 선언 -> private
-	// 정보는 은닉하고 Getter와 Setter를 통한 우회접근이 필요
+	// 정보는 은닉하고 Getter와 Setter를 통한 우회접근
+	// 데이터를 다루는 기능 (메서드) 함께 구현
 	private String name;
 	private int price;
 
@@ -24,6 +25,12 @@ class Goods {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	
+	// 일반 메서드
+	public void showInfo() {
+		System.out.println("상품명: "+name);
+		System.out.printf("가격: %,d원%n\n", price);
+	}
 
 }
 
@@ -40,7 +47,8 @@ public class GoodsApp {
 		camera.setPrice(400_000);
 		
 //		System.out.printf("%s -> %,d%n", camera.name, camera.price);
-		System.out.printf("%s -> %,d%n", camera.getName(), camera.getPrice());
+//		System.out.printf("%s -> %,d%n", camera.getName(), camera.getPrice());
+		camera.showInfo();
 
 		Goods notebook = new Goods();
 //		notebook.name = "LG그램";
@@ -49,7 +57,8 @@ public class GoodsApp {
 		notebook.setPrice(900_000);
 		
 //		System.out.printf("%s -> %,d%n", notebook.name, notebook.price);
-		System.out.printf("%s -> %,d%n", notebook.getName(), notebook.getPrice());
+//		System.out.printf("%s -> %,d%n", notebook.getName(), notebook.getPrice());
+		notebook.showInfo();
 		
 		Goods mug = new Goods();
 //		mug.name = "머그컵";
@@ -58,7 +67,10 @@ public class GoodsApp {
 		mug.setPrice(2_000);
 		
 //		System.out.printf("%s -> %,d%n", mug.name, mug.price);
-		System.out.printf("%s -> %,d%n", mug.getName(), mug.getPrice());
+//		System.out.printf("%s -> %,d%n", mug.getName(), mug.getPrice());
+		mug.showInfo();
+		
+		
 
 	}
 
