@@ -23,5 +23,13 @@ public class StaticEx {
 		System.out.println("참조카운트:" + refCount);
 
 	}
+	
+	// 소멸자
+	@Override
+	protected void finalize() throws Throwable {
+		--refCount;
+		super.finalize();
+		System.out.println("소멸자 호출");
+	}
 
 }
