@@ -1,4 +1,4 @@
-package com.javaex.oop.point.v1;
+package com.javaex.oop.point.v3;
 
 class Song {
 	private String title;
@@ -17,6 +17,10 @@ class Song {
 		this.composer = composer;
 	}
 
+	public Song(String title, String artist) {
+		this.title = title;
+		this.artist = artist;
+	}
 
 	public void setTitle(String title) {
 		this.title = title;
@@ -86,6 +90,10 @@ public class SongApp {
 
 		Song singer3 = new Song("버스커버스커", "벚꽃엔딩", "버스커버스커1집", 2012, 4, "장범준");
 		singer3.showInfo();
+		
+		
+		Song singer4 = new Song("에피소드","이무진");
+		singer4.showInfo();
 
 	}
 
