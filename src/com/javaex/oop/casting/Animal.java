@@ -15,7 +15,6 @@ public class Animal {
 
 	public void walk() {
 		System.out.println(name + " is walking.");
-		//안녕하세요
 	}
 
 }
