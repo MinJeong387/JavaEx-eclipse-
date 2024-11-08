@@ -43,6 +43,7 @@ class Point {
 	// 메서드 오버로딩
 	// 한 클래스 내에 같은 이름을 가진 메서드
 	// 각 메서드는 매개변수의 타입, 순서, 갯수에 따라 구별
+
 	public void draw(boolean bShow) {
 		String message = String.format("점[x=%d, y=%d]을 ", x, y);
 
@@ -91,20 +92,31 @@ class ColorPoint extends Point {
 	// draw 메서드를 상속받았으나 약간 부족하니 새로 선언한다. (override)
 	@Override
 	public void draw() {
-
 		System.out.printf("색상점[x=%d, y=%d, color=%s]를 그렸습니다.%n", getX(), getY(), color);
 	}
+
+//	@Override
+//	public void draw(boolean bShow) {//
+//		if (bShow) {
+//			System.out.printf("색상점[x=%d, y=%d, color=%s]를 지웠습니다.%n", getX(), getY(), color);
+//		} else {
+//			System.out.printf("색상점[x=%d, y=%d, color=%s]를 지웠습니다.%n", getX(), getY(), color);
+//		}
+//
+//	}
 
 	@Override
 	public void draw(boolean bShow) {
 
-		if (bShow) {
-			System.out.printf("색상점[x=%d, y=%d, color=%s]를 지웠습니다.%n", getX(), getY(), color);
-		} else {
-			System.out.printf("색상점[x=%d, y=%d, color=%s]를 지웠습니다.%n", getX(), getY(), color);
-		}
+		String message = String.format("색상점[x=%d, y=%d, color=%s]를 ", x, y, color);
 
+		message += bShow ? "그렸습니다." : "지웠습니다.";
+		System.out.println(message);
+
+		// 오버라이드 했지만 부모의 기능을 사용해야 할 때
+		super.draw(bShow);
 	}
+
 }
 
 public class PointApp {
