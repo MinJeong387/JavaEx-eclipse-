@@ -12,7 +12,8 @@ public class ShapeApp {
 		Circle c = new Circle(10,10,30);
 		c.draw();
 		
-		
+		Point p = new Point(100,100);
+		p.draw();
 		
 	}
 

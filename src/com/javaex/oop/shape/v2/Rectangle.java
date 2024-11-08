@@ -1,6 +1,6 @@
 package com.javaex.oop.shape.v2;
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape implements Drawable{
 
 	protected int width; // 너비
 	protected int height; // 높이

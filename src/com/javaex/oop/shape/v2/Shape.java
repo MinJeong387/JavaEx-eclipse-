@@ -14,7 +14,7 @@ public abstract class Shape {
 	}
 	
 	// 추상 클래스 내에는 한 개 이상의 추상메서드가 있어야 한다.
-	public abstract void draw();
+//	public abstract void draw(); -> 인터페이스에 위임
 	public abstract double area();
 	
 
