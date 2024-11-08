@@ -25,6 +25,7 @@ public class AnimalApp {
 		pet.eat();
 		pet.walk();
 //		((Dog)pet).bark();
+		
 		// 캐스팅시 해당 객체가 캐스팅 가능 객체인지 확인
 		if (pet instanceof Dog) {
 			((Dog)pet).bark();
