@@ -3,7 +3,7 @@ package com.javaex.oop.casting;
 public class AnimalApp {
 
 	public static void main(String[] args) {
-		// Upcasting : 부모타입으로 자식 인스턴스를 참조
+		// Upcasting : 자식 클래스의 객체가 부모 클래스 타입으로 형변환 되는 것
 		Animal dog1 = new Dog("Snoopy");
 		dog1.eat();
 		dog1.walk();
