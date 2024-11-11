@@ -74,10 +74,8 @@ public class ArraysSortEx {
 		System.out.println("원본 배열: " + Arrays.toString(members));
 //		Arrays.sort(members);
 //		System.out.println("오름차순 정렬: "+Arrays.toString(members));
-		Arrays.sort(members,Collections.reverseOrder());
-		System.out.println("내림차순 정렬: "+Arrays.toString(members));
-		
-		
+		Arrays.sort(members, Collections.reverseOrder());
+		System.out.println("내림차순 정렬: " + Arrays.toString(members));
 
 	}
 
