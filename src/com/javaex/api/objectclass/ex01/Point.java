@@ -1,6 +1,6 @@
 package com.javaex.api.objectclass.ex01;
 
-// Object ex01
+//Object ex01
 public class Point {
 	private int x;
 	private int y;
@@ -13,8 +13,7 @@ public class Point {
 	@Override
 	public String toString() {
 		// 객체 내부 데이터의 문자열 출력
-		return "Point("+x+","+y+")";
+		return "Point(" + x + "," + y + ")";
 	}
-	
-	
+
 }
