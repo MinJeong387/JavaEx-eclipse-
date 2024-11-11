@@ -6,9 +6,10 @@ import java.util.Scanner;
 public class ExceptionHandlingEx {
 
 	public static void main(String[] args) {
-//		arithExceptionEx();
-		arrayExceptionEx();
-		nullPointerExceptionEx();
+
+//		arrayExceptionEx();
+//		nullPointerExceptionEx();
+		arithExceptionEx();
 
 	}
 
