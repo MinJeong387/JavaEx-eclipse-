@@ -28,7 +28,7 @@ public class WrapperEx {
 		String s2 = "456";
 
 		System.out.println(s1 + s2);
-		System.out.println(Integer.parseInt(s1) + Integer.parseInt(s1)); // 이제 숫자열123 + 숫자열456
+		System.out.println(Integer.parseInt(s1) + Integer.parseInt(s2)); // 이제 숫자열123 + 숫자열456
 
 		// 형변환
 		System.out.println(i2.doubleValue());
