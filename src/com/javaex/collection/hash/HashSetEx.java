@@ -143,6 +143,7 @@ public class HashSetEx {
 		hs.add(s2);
 		hs.add(s3);
 		hs.add(s4);
+		
 
 		// Iterator
 		Iterator<Student> it = hs.iterator();

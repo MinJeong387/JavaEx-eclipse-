@@ -6,7 +6,7 @@ public class ArraysEx {
 
 	public static void main(String[] args) {
 		// 배열의 복사
-//		arrayCopyEx();
+		arrayCopyEx();
 		
 		// 얕은 비교
 		equalsEx();
@@ -44,8 +44,6 @@ public class ArraysEx {
 		
 		System.out.println("nums1 vs nums2: "+Arrays.equals(nums1,nums2));
 		System.out.println("nums1 vs nums3: "+Arrays.equals(nums1,nums3));
-		
-		
 		
 	}
 
