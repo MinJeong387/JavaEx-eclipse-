@@ -10,6 +10,7 @@ public class FileClassEx {
 	public static void main(String[] args) {
 		// 파일 객체 생성
 		File root = new File(rootPath);
+		
 		// 이 파일은 존재하는가?
 		System.out.println(rootPath + ":" + root.exists());
 
