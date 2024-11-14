@@ -1,0 +1,45 @@
+package com.javaex.io.bytestream;
+
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+public class DataStreamEx {
+	static final String rootPath = System.getProperty("user.dir") + "\\files\\";
+	static final String filename = rootPath + "primitives.txt";
+
+	public static void main(String[] args) {
+		writePrimitives();
+
+	}
+
+	private static void writePrimitives() {
+		try (	OutputStream fos = new FileOutputStream(filename); 
+				DataOutputStream dos = new DataOutputStream(fos);) {
+			dos.writeUTF("홍길동");
+			dos.writeBoolean(true);
+			dos.writeInt(28);
+			dos.writeFloat(80.9f);
+
+			dos.writeUTF("고길동");
+			dos.writeBoolean(false);
+			dos.writeInt(45);
+			dos.writeFloat(99.9f);
+
+			dos.writeUTF("전우치");
+			dos.writeBoolean(true);
+			dos.writeInt(32);
+			dos.writeFloat(68);
+
+			System.out.println("파일이 저장되었습니다.");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
