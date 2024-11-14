@@ -11,7 +11,6 @@ public class CharStreamEx {
 
 	// 프로젝트 내의 files 디렉터리 위치
 	static final String rootPath = System.getProperty("user.dir") + "\\files\\";
-
 	static final String filename = rootPath + "char.txt";
 
 	public static void main(String[] args) {
