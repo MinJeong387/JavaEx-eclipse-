@@ -6,23 +6,24 @@ public class Ex05 {
 
 	public static void main(String[] args) {
 		ex05();
-
 	}
 
 	private static void ex05() {
+		Scanner sc = new Scanner(System.in);
 
-		Scanner scanner = new Scanner(System.in);
-		double num1 = scanner.nextDouble();
-		double num2 = scanner.nextDouble();
-		double num3 = scanner.nextDouble();
-		double num4 = scanner.nextDouble();
-		double num5 = scanner.nextDouble();
+		Double nums[] = new Double[5];
+		double sum = 0;
 
-		double ave = (num1 + num2 + num3 + num4 + num5) / 5;
+		for (int i = 0; i < nums.length; i++) {
+			nums[i] = sc.nextDouble();
+			sum += nums[i];
+		}
 
-		System.out.print("평균은 " + ave + "입니다.");
-		
-		scanner.close();
+		double avg = sum / 5;
+
+		System.out.print("평균은 " + avg + "입니다.");
+
+		sc.close();
 	}
 
 }
