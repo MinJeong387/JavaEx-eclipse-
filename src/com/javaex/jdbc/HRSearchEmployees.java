@@ -9,16 +9,18 @@ import java.util.Scanner;
 
 public class HRSearchEmployees {
 
-	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(db종류에 따름) -> 나의위치 -> 포트번호 -> 스키마
+	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(DB 종류에 따름) -> 나의위치 -> 포트번호 -> 스키마 !!
 	static final String dbuser = "test_user";
 	static final String dbpass = "test";
 
 	public static void main(String[] args) {
+
+		Scanner scanner = new Scanner(System.in);
+		
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-
-		Scanner scanner = new Scanner(System.in);
+		
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,7 +34,8 @@ public class HRSearchEmployees {
 					+ "OR UPPER(last_name) LIKE '%" + keyword.toUpperCase() + "%'"; // 개행문자는 공백으로 바꿔줌 !
 
 			System.out.println("QUERY:" + sql);
-
+			
+			
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 
@@ -44,25 +47,18 @@ public class HRSearchEmployees {
 
 				System.out.printf("%s : %s, %s, %s%n", fullName, email, phoneNumber, hireDate);
 			}
+			
 		} catch (ClassNotFoundException e) {
 			System.err.println("드라이버 로드 실패!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-
-			}
-
+				if (rs != null)	rs.close();
+				if (stmt != null) stmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e) {	}
 		}
 		scanner.close();
-
 	}
-
 }

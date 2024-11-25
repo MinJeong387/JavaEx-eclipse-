@@ -9,16 +9,18 @@ import java.util.Scanner;
 
 public class HRSearchEmployeesPstmt {
 
-	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(db종류에 따름) -> 나의위치 -> 포트번호 -> 스키마
+	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(DB 종류에 따름) -> 나의위치 -> 포트번호 -> 스키마 !!
 	static final String dbuser = "test_user";
 	static final String dbpass = "test";
 
 	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		Scanner scanner = new Scanner(System.in);
+		
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -48,18 +50,11 @@ public class HRSearchEmployeesPstmt {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (Exception e) {
-
-			}
-
+				if (rs != null) rs.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (Exception e) {	}
 		}
 		scanner.close();
 	}
-
 }
