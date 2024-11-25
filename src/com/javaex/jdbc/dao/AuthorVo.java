@@ -69,10 +69,6 @@ public class AuthorVo {
 	public String toString() {
 		return "AuthorVo [authorId=" + authorId + ", authorName=" + authorName + ", authorDesc=" + authorDesc
 				+ ", regdate=" + regdate + "]";
-	}
-	
-	
-	
-	
+	}	
 
 }

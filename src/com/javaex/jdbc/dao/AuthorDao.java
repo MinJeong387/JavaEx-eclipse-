@@ -9,8 +9,4 @@ public interface AuthorDao {
 	public boolean insert(AuthorVo vo);
 	public boolean update(AuthorVo vo);
 	public boolean delete(Long id);
-	
-	
-	
-
 }
