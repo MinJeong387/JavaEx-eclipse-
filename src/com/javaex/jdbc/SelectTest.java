@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class SelectTest {
 
-	static final String dburl = "jdbc:mysql://localhost:3306/test_user"; // 순서 : 프토토콜(db종류에 따름) -> 나의위치 -> 포트번호 -> 스키마
+	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(db종류에 따름) -> 나의위치 -> 포트번호 -> 스키마
 	static final String dbuser = "test_user";
 	static final String dbpass = "test";
 
@@ -21,26 +21,27 @@ public class SelectTest {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(dburl, dbuser, dbpass);
 			// 접속 객체 출력
-			System.out.println(conn);
-			System.out.println("연결 성공!");
-			
-			stmt = conn.createStatement();	// 쿼리 수행 객체 생성
-			String sql = "SELECT department_id, department_name " +
-						"FROM departments";
-			
-			rs = stmt.executeQuery(sql);	// -> Cursor
-			
-			while(rs.next()) {
+//			System.out.println(conn);
+//			System.out.println("연결 성공!");
+
+			stmt = conn.createStatement(); // 쿼리 수행 객체 생성
+			String sql = "SELECT department_id, department_name " + "FROM departments";	// name 뒤에 띄어쓰기 !!
+
+			rs = stmt.executeQuery(sql); // -> Cursor
+
+			while (rs.next()) {
 				int deptId = rs.getInt(1);
-				String deptName = rs.getString("department_name");	// rs.getString(2) 라고 해도 됨
-				
+				String deptName = rs.getString("department_name"); // rs.getString(2) 라고 해도 됨
+
 				System.out.printf("%d - %s%n", deptId, deptName);
 			}
-			
+
 		} catch (ClassNotFoundException e) {
 			System.err.println("드라이버를 찾지 못했습니다!");
+			e.printStackTrace();
 		} catch (SQLException e) {
 			System.err.println("SQLError!");
+			e.printStackTrace();
 		} finally {
 			try {
 				if (conn != null)
