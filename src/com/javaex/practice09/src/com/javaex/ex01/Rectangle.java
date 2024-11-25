@@ -1,13 +1,12 @@
-package com.javaex.ex01;
+package com.javaex.practice09.src.com.javaex.ex01;
 
 public class Rectangle {
 
-	//필드
+	// 필드
 	private int width;
 	private int height;
-	
-	
-	//생성자
+
+	// 생성자
 	public Rectangle() {
 	}
 
@@ -16,8 +15,7 @@ public class Rectangle {
 		this.height = height;
 	}
 
-	
-	//getter setter
+	// getter setter
 	public int getWidth() {
 		return width;
 	}
@@ -34,23 +32,18 @@ public class Rectangle {
 		this.height = height;
 	}
 
-	
-	//일반메소드
+	// 일반메소드
 	public double area() {
-		return width*height;
+		return width * height;
 	}
-	
-	
+
 	public void draw() {
-		System.out.println("[사각형]가로:" +  width + 
-				           " 세로:" + height + 
-				           " 넓이:" + this.area() +
-				           " 을 그렸습니다.");
+		System.out.println("[사각형]가로:" + width + " 세로:" + height + " 넓이:" + this.area() + " 을 그렸습니다.");
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Rectangle [width=" + width + ", height=" + height + "]";
 	}
-	
+
 }
