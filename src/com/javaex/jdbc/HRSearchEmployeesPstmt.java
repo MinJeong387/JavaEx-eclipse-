@@ -2,12 +2,12 @@ package com.javaex.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
-public class HRSearchEmployees {
+public class HRSearchEmployeesPstmt {
 
 	static final String dburl = "jdbc:mysql://localhost:3306/hrdb"; // 순서 : 프토토콜(db종류에 따름) -> 나의위치 -> 포트번호 -> 스키마
 	static final String dbuser = "test_user";
@@ -15,7 +15,7 @@ public class HRSearchEmployees {
 
 	public static void main(String[] args) {
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		Scanner scanner = new Scanner(System.in);
@@ -27,33 +27,31 @@ public class HRSearchEmployees {
 			System.out.print("검색어 입력:");
 			String keyword = scanner.next();
 
-			String sql = "SELECT " + "CONCAT(first_name,' ', last_name) full_name, email, phone_number, hire_date "
-					+ "FROM employees " + "WHERE UPPER(first_name) LIKE '%" + keyword.toUpperCase() + "%' "
-					+ "OR UPPER(last_name) LIKE '%" + keyword.toUpperCase() + "%'"; // 개행문자는 공백으로 바꿔줌 !
+			// 실행 계획 수립
+			String sql = "SELECT CONCAT(first_name,' ',last_name) full_name, "
+					+ " email, phone_number, hire_date FROM employees " + " WHERE UPPER(first_name) LIKE ? OR "
+					+ " UPPER(last_name) LIKE ?";
+			// 데이터 바인딩 위치를 ?로 설정, 동적으로 데이터를 연결 시킴
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword.toUpperCase() + "%");
+			pstmt.setString(2, "%" + keyword.toUpperCase() + "%");
 
-			System.out.println("QUERY:" + sql);
-
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
+			rs = pstmt.executeQuery(); // 쿼리수행한다. 여기서는 따로 전달해 주지 않아도 됨
 
 			while (rs.next()) {
-				String fullName = rs.getString(1);
-				String email = rs.getString(2);
-				String phoneNumber = rs.getString("phone_number");
-				String hireDate = rs.getString("hire_date");
-
-				System.out.printf("%s : %s, %s, %s%n", fullName, email, phoneNumber, hireDate);
+				System.out.printf("%s: %s, %s, %s%n", rs.getString("full_name"), rs.getString("email"), rs.getString(3),
+						rs.getString(4));
 			}
 		} catch (ClassNotFoundException e) {
-			System.err.println("드라이버 로드 실패!");
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if (rs != null)
 					rs.close();
-				if (stmt != null)
-					stmt.close();
+				if (pstmt != null)
+					pstmt.close();
 				if (conn != null)
 					conn.close();
 			} catch (Exception e) {
@@ -62,7 +60,6 @@ public class HRSearchEmployees {
 
 		}
 		scanner.close();
-
 	}
 
 }
