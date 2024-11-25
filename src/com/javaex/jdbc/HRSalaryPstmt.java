@@ -14,6 +14,7 @@ public class HRSalaryPstmt {
 	static final String dbpass = "test";
 
 	public static void main(String[] args) {
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
