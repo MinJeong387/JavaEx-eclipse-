@@ -7,14 +7,10 @@ import java.util.Scanner;
 
 public class BookRentalDaoApp {
 
-	
 	public static void main(String[] args) {
-		
-		
-		
-		
+
 		Welcome();
-		
+
 //		CustomerIdInput();
 
 //		ManagerIdInput();
@@ -32,8 +28,8 @@ public class BookRentalDaoApp {
 	}
 
 	public static void Welcome() {
-Scanner sc = new Scanner(System.in);
-		
+		Scanner sc = new Scanner(System.in);
+
 		System.out.println("도서관에 오신걸 환영합니다 ^^ \n회원이시면? 1 \t 회원이 아니시면? 2 \t 관리자 이시면? 3 \n입력해주세요^^");
 		int customer = 0;
 
@@ -43,24 +39,20 @@ Scanner sc = new Scanner(System.in);
 				if (customer == 1) {
 					System.out.println("1. 회원이십니다.");
 					CustomerIdInput();
-					
-					
-					
-					
+
 					BookRentPossible();
 					BookRentImpossible();
-					
+
 					break;
 				} else if (customer == 2) {
 					System.out.println("2. 회원이 아닙니다. 회원가입을 진행하겠습니다.");
 					JoinCustomer();
-					
+
 					break;
 				} else if (customer == 3) {
 					System.out.println("3. 관리자 이십니다. 관리자 로그인 해주세요.");
 					ManagerIdInput();
-					
-					
+
 					break;
 				} else {
 					System.out.println("1 또는 2 또는 3의 숫자값만 입력해주세요.");
@@ -83,26 +75,22 @@ Scanner sc = new Scanner(System.in);
 		sc.close();
 	}
 
-	
 	public static void CustomerIdInput() {
 		Scanner sc = new Scanner(System.in);
-		
-	
+
 		System.out.println("회원 아이디와 비밀번호를 입력해주세요.");
 		System.out.print("회원 아이디: ");
 		String customersId = sc.next();
 		System.out.print("회원 비밀번호: ");
 		String customersPassword = sc.next();
 
-
-		
 		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
-		
+
 		RentOrReturn();
 
 		sc.close();
 	}
-	
+
 	public static void RentOrReturn() {
 		Scanner sc = new Scanner(System.in);
 
@@ -118,13 +106,13 @@ Scanner sc = new Scanner(System.in);
 				if (rent == 1) {
 					System.out.println("1. 도서 검색을 먼저 시작하겠습니다.");
 					SearchBook();
-					
+
 					break;
 
 				} else if (rent == 2) {
 					System.out.println("2. 도서 반납을 선택하셨습니다.");
 					BookReturn();
-					
+
 					break;
 
 				} else {
@@ -148,7 +136,6 @@ Scanner sc = new Scanner(System.in);
 		sc.close();
 	}
 
-	
 	public static void ManagerIdInput() {
 		Scanner sc = new Scanner(System.in);
 
@@ -157,12 +144,11 @@ Scanner sc = new Scanner(System.in);
 		String managerId = sc.next();
 		System.out.print("관리자 비밀번호: ");
 		String managerPassword = sc.next();
-		
+
 		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 
 		System.out.println("관리자로 확인되었습니다. 관리자 화면으로 전환하겠습니다.");
 		ManagerBookAdd();
-		
 
 		sc.close();
 
@@ -213,10 +199,8 @@ Scanner sc = new Scanner(System.in);
 
 		System.out.println("회원으로 등록되었습니다. 첫화면으로 돌아가서 다시 진행해주세요.");
 		sc.close();
-		
-	}
 
-	
+	}
 
 	public static void SearchBook() {
 		Scanner sc = new Scanner(System.in);
@@ -271,18 +255,15 @@ Scanner sc = new Scanner(System.in);
 			}
 
 		}
-		
+
 		// (위에서) 도서목록 출력 하는 식 적어야 함
-		
+
 		System.out.println("해당하는 도서 목록을 출력하였습니다. 대출 혹은 예약을 원하시는 도서의 번호를 입력해주세요.");
-		
-		
-		
+
 		// 대출 가능한지 아닌지 도서목록의 대출여부와 비교 (if문)
 		BookRentPossible();
 		BookRentImpossible();
-		
-		
+
 		sc.close();
 	}
 
@@ -305,22 +286,58 @@ Scanner sc = new Scanner(System.in);
 	}
 
 	public static void BookRentPossible() {
-		
+
 		System.out.println("해당 책은 대출 가능합니다.");
-		
-		Date today = new Date();		
-	
-		
+
+		Date today = new Date();
+
 		SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
 		System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 일주일 입니다.");
 		System.out.println("기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다");
 	}
 
-	
 	public static void BookRentImpossible() {
-		
+		Scanner sc = new Scanner(System.in);
+
 		System.out.println("해당 책은 대여중으로 대출 불가능합니다. 예약을 원하시면 1 \t 원하지 않으시면 2 눌러주세요");
-		
-		
+		int reserve;
+
+		while (true) {
+
+			try {
+				reserve = sc.nextInt();
+
+				if (reserve == 1) {
+					System.out.println("1. 도서 예약을 선택하셨습니다.");
+					
+					System.out.println("해당 도서의 반납 예정일은 000 입니다. 다시 연락드리겠습니다.");
+
+					break;
+
+				} else if (reserve == 2) {
+					System.out.println("2. 예약하지 않겠습니다. 처음화면에서 다시 시작해주세요.");
+					
+					break;
+
+				} else {
+					System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+
+				}
+			}
+
+			catch (NumberFormatException n) {
+				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+				sc.next();
+				continue;
+
+			} catch (InputMismatchException i) {
+				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+				sc.next();
+				continue;
+
+			}
+		}
+		sc.close();
+
 	}
 }
