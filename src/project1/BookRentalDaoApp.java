@@ -5,29 +5,35 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class BookRental {
+public class BookRentalDaoApp {
 
+	
 	public static void main(String[] args) {
+		
+		
+		
+		
 		Welcome();
+		
+//		CustomerIdInput();
 
-		CustomerIdInput();
+//		ManagerIdInput();
+//		ManagerBookAdd();
 
-		ManagerIdInput();
-		ManagerBookAdd();
+//		JoinCustomer();
 
-		JoinCustomer();
+//		RentOrReturn();
+//		SearchBook();
+//		BookReturn();
 
-		RentOrReturn();
-		SearchBook();
-		BookReturn();
-
-		BookRentPossible();
-		BookRentImpossible();
+//		BookRentPossible();
+//		BookRentImpossible();
 
 	}
 
 	public static void Welcome() {
-		Scanner sc = new Scanner(System.in);
+Scanner sc = new Scanner(System.in);
+		
 		System.out.println("도서관에 오신걸 환영합니다 ^^ \n회원이시면? 1 \t 회원이 아니시면? 2 \t 관리자 이시면? 3 \n입력해주세요^^");
 		int customer = 0;
 
@@ -35,13 +41,26 @@ public class BookRental {
 			try {
 				customer = sc.nextInt();
 				if (customer == 1) {
-					System.out.println("1. 회원이십니다. 회원번호를 입력해주세요.");
+					System.out.println("1. 회원이십니다.");
+					CustomerIdInput();
+					
+					
+					
+					
+					BookRentPossible();
+					BookRentImpossible();
+					
 					break;
 				} else if (customer == 2) {
 					System.out.println("2. 회원이 아닙니다. 회원가입을 진행하겠습니다.");
+					JoinCustomer();
+					
 					break;
 				} else if (customer == 3) {
 					System.out.println("3. 관리자 이십니다. 관리자 로그인 해주세요.");
+					ManagerIdInput();
+					
+					
 					break;
 				} else {
 					System.out.println("1 또는 2 또는 3의 숫자값만 입력해주세요.");
@@ -64,23 +83,72 @@ public class BookRental {
 		sc.close();
 	}
 
+	
 	public static void CustomerIdInput() {
 		Scanner sc = new Scanner(System.in);
-
+		
+	
 		System.out.println("회원 아이디와 비밀번호를 입력해주세요.");
 		System.out.print("회원 아이디: ");
 		String customersId = sc.next();
 		System.out.print("회원 비밀번호: ");
 		String customersPassword = sc.next();
 
-		System.out.println("회원으로 확인되었습니다.");
 
-		System.out.println("회원으로 확인되었습니다.");
+		
 		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+		
+		RentOrReturn();
 
 		sc.close();
 	}
+	
+	public static void RentOrReturn() {
+		Scanner sc = new Scanner(System.in);
 
+		System.out.println("회원으로 로그인 되었습니다. 어떤 작업을 하시겠어요?");
+		System.out.println("1. 도서검색 및 대여 \t 2. 도서 반납");
+		int rent;
+
+		while (true) {
+
+			try {
+				rent = sc.nextInt();
+
+				if (rent == 1) {
+					System.out.println("1. 도서 검색을 먼저 시작하겠습니다.");
+					SearchBook();
+					
+					break;
+
+				} else if (rent == 2) {
+					System.out.println("2. 도서 반납을 선택하셨습니다.");
+					BookReturn();
+					
+					break;
+
+				} else {
+					System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+
+				}
+			}
+
+			catch (NumberFormatException n) {
+				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+				sc.next();
+				continue;
+
+			} catch (InputMismatchException i) {
+				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+				sc.next();
+				continue;
+
+			}
+		}
+		sc.close();
+	}
+
+	
 	public static void ManagerIdInput() {
 		Scanner sc = new Scanner(System.in);
 
@@ -89,9 +157,12 @@ public class BookRental {
 		String managerId = sc.next();
 		System.out.print("관리자 비밀번호: ");
 		String managerPassword = sc.next();
+		
+		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
 
 		System.out.println("관리자로 확인되었습니다. 관리자 화면으로 전환하겠습니다.");
-		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+		ManagerBookAdd();
+		
 
 		sc.close();
 
@@ -140,50 +211,12 @@ public class BookRental {
 		System.out.print("회원 비밀번호: ");
 		String customersPassword = sc.next();
 
-		System.out.println("회원으로 등록되었습니다.");
+		System.out.println("회원으로 등록되었습니다. 첫화면으로 돌아가서 다시 진행해주세요.");
 		sc.close();
+		
 	}
 
-	public static void RentOrReturn() {
-		Scanner sc = new Scanner(System.in);
-
-		System.out.println("회원으로 로그인 되었습니다. 어떤 작업을 하시겠어요?");
-		System.out.println("1. 도서검색 및 대여 \t 2. 도서 반납");
-		int rent;
-
-		while (true) {
-
-			try {
-				rent = sc.nextInt();
-
-				if (rent == 1) {
-					System.out.println("1. 도서 검색을 먼저 시작하겠습니다.");
-					break;
-
-				} else if (rent == 2) {
-					System.out.println("2. 도서 반납을 선택하셨습니다.");
-					break;
-
-				} else {
-					System.out.println("1 또는 2의 숫자값만 입력해주세요.");
-
-				}
-			}
-
-			catch (NumberFormatException n) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
-				sc.next();
-				continue;
-
-			} catch (InputMismatchException i) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
-				sc.next();
-				continue;
-
-			}
-		}
-
-	}
+	
 
 	public static void SearchBook() {
 		Scanner sc = new Scanner(System.in);
@@ -271,11 +304,10 @@ public class BookRental {
 		System.out.println("기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다");
 	}
 
+	
 	public static void BookRentImpossible() {
 		
 		System.out.println("해당 책은 대여중으로 대출 불가능합니다. 예약을 원하시면 1 \t 원하지 않으시면 2 눌러주세요");
-		
-		
 		
 		
 	}
