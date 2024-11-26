@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.javaex.jdbc.dao.AuthorVo;
 
-public class BookRentalDao {
+public class LibraryDao {
 
 	
 	public List<BookVo> getList();	// 전체 책 목록

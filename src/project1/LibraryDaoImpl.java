@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class BookRentalDaoImpl {
+public class LibraryDaoImpl {
 	
 	static final String dburl = "jdbc:mysql://localhost:3306/library_db";
 	static final String dbuser = "library_user";

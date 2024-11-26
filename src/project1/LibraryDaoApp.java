@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class BookRentalDaoApp {
+public class LibraryDaoApp {
 
 	public static void main(String[] args) {
 
@@ -292,7 +292,7 @@ public class BookRentalDaoApp {
 		Date today = new Date();
 
 		SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
-		System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 일주일 입니다.");
+		System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 9일 입니다.");
 		System.out.println("기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다");
 	}
 
