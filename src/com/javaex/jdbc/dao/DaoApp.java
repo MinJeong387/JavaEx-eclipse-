@@ -15,6 +15,7 @@ public class DaoApp {
 	
 	//	Author Table의 모든 레코드를 출력
 	private static void listAuthors() {
+		// dao 변수를 통해 AuthorDaoImpl 객체의 메소드에 접근할 수 있음 (다형성 활용)
 		AuthorDao dao = new AuthorDaoImpl();
 		
 		List<AuthorVo> list = dao.getList();

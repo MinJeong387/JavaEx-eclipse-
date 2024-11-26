@@ -15,6 +15,7 @@ public class AuthorDaoImpl implements AuthorDao {
 	static final String dbuser = "test_user";
 	static final String dbpass = "test";
 	
+	// AuthorDaoImpl 클래스에서 데이터베이스 작업을 수행하기 위한 필수적인 진입점
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
