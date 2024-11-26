@@ -271,6 +271,18 @@ Scanner sc = new Scanner(System.in);
 			}
 
 		}
+		
+		// (위에서) 도서목록 출력 하는 식 적어야 함
+		
+		System.out.println("해당하는 도서 목록을 출력하였습니다. 대출 혹은 예약을 원하시는 도서의 번호를 입력해주세요.");
+		
+		
+		
+		// 대출 가능한지 아닌지 도서목록의 대출여부와 비교 (if문)
+		BookRentPossible();
+		BookRentImpossible();
+		
+		
 		sc.close();
 	}
 

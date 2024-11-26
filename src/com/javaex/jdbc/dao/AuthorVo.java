@@ -12,9 +12,9 @@ public class AuthorVo {
 	private String authorName;
 	private String authorDesc;
 	private Date regdate;
-	
+
 	public AuthorVo() {
-		
+
 	}
 
 	public AuthorVo(String authorName, String authorDesc) {
@@ -30,8 +30,6 @@ public class AuthorVo {
 		this.authorDesc = authorDesc;
 		this.regdate = regdate;
 	}
-	
-	
 
 	public Long getAuthorId() {
 		return authorId;
@@ -69,6 +67,6 @@ public class AuthorVo {
 	public String toString() {
 		return "AuthorVo [authorId=" + authorId + ", authorName=" + authorName + ", authorDesc=" + authorDesc
 				+ ", regdate=" + regdate + "]";
-	}	
+	}
 
 }
