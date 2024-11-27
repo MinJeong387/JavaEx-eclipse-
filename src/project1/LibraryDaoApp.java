@@ -3,12 +3,20 @@ package project1;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+
+import com.javaex.jdbc.dao.AuthorDao;
+import com.javaex.jdbc.dao.AuthorDaoImpl;
+import com.javaex.jdbc.dao.AuthorVo;
 
 public class LibraryDaoApp {
 
 	public static void main(String[] args) {
 
+//		ListBooks();
+		
 		Welcome();
 
 //		CustomerIdInput();
@@ -26,6 +34,27 @@ public class LibraryDaoApp {
 //		BookRentImpossible();
 
 	}
+	
+	private static void ListBooks() {
+		UserDao dao = new UserDaoImpl();
+		
+		List<UserVo> list = dao.getList();
+		Iterator<UserVo> iter = list.iterator();
+		
+		System.out.println("===================");
+		
+		while (iter.hasNext()) {
+			UserVo vo = iter.next();
+			System.out.println(vo);
+		}
+		
+		System.out.println("===================");
+		
+	}
+	
+	
+	
+	
 
 	public static void Welcome() {
 		Scanner sc = new Scanner(System.in);
@@ -215,8 +244,11 @@ public class LibraryDaoApp {
 				searchNumber = sc.nextInt();
 				if (searchNumber == 1) {
 					System.out.println("1번 누르셨습니다. 작가로 검색하겠습니다.");
+					ListBooks();
 					System.out.println("찾고자 하는 도서의 작가명을 입력하세요.");
 					String author_name = sc.next();
+					
+					
 
 					break;
 				} else if (searchNumber == 2) {

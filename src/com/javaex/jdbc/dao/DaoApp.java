@@ -8,8 +8,8 @@ public class DaoApp {
 
 	public static void main(String[] args) {
 		listAuthors();
-//		insertAuthor();
-		deleteAuthor();
+		insertAuthor();
+//		deleteAuthor();
 		listAuthors();
 	}
 	

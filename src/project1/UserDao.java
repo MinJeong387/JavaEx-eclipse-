@@ -2,16 +2,13 @@ package project1;
 
 import java.util.List;
 
-import com.javaex.jdbc.dao.AuthorVo;
-
-public class UserDao {
-
+public interface UserDao {
 	
-	public List<BookVo> getList();	// 전체 책 목록
-	public List<BookVo> search(String keyword);	// 검색
-	public BookVo get(Long id);
-	public boolean insert(BookVo vo);
-	public boolean update(BookVo vo);
+	public List<UserVo> getList();	// 전체 책 목록
+	public List<UserVo> search(String keyword);	// 검색
+	public UserVo get(Long id);
+	public boolean insert(UserVo vo);
+	public boolean update(UserVo vo);
 	public boolean delete(Long id);
-	
+
 }
