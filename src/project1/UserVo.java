@@ -1,6 +1,5 @@
 package project1;
 
-import java.util.Date;
 
 public class UserVo {
 	
@@ -15,6 +14,8 @@ public class UserVo {
 	public UserVo() {
 		
 	}
+	
+	
 	
 	public UserVo(String title, String authorName) {
 		super();

@@ -10,5 +10,8 @@ public interface UserDao {
 	public boolean insert(UserVo vo);
 	public boolean update(UserVo vo);
 	public boolean delete(Long id);
+	
+	
+	public List<UserVo> getListC();
 
 }

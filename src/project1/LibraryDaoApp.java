@@ -15,7 +15,7 @@ public class LibraryDaoApp {
 
 	public static void main(String[] args) {
 
-//		ListBooks();
+		ListBooks();
 		
 		Welcome();
 
