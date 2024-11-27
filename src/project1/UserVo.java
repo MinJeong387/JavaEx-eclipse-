@@ -11,6 +11,7 @@ public class UserVo {
 	
 	
 	
+	
 	public UserVo() {
 		
 	}
@@ -23,6 +24,9 @@ public class UserVo {
 		this.authorName = authorName;
 		
 	}
+	
+
+	
 
 	public UserVo(String title, String authorName, String publisher, Integer rate) {
 		super();

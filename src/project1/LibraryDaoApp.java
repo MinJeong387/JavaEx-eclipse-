@@ -16,6 +16,7 @@ public class LibraryDaoApp {
 	public static void main(String[] args) {
 
 		ListBooks();
+
 		
 		Welcome();
 
@@ -111,20 +112,37 @@ public class LibraryDaoApp {
 		System.out.print("회원 아이디: ");
 		String customersId = sc.next();
 		System.out.print("회원 비밀번호: ");
-		String customersPassword = sc.next();
+		String customersPassword = sc.next();  
+		
+		
+		
+//		SearchCustomer();
+		UserDao dao = new UserDaoImpl();
+		List<UserVo> list = dao.search(customersId, customersPassword);
+		
+		if (list != null) {
+			System.out.println("도서대여 화면으로 이동합니다.");
+			RentOrReturn();
+			
+		}
+		else {
+			System.out.println("그런 아이디 없음");
+		}  
+		
 
-		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
-
-		RentOrReturn();
+		
 
 		sc.close();
 	}
+	
+
+	
+	
 
 	public static void RentOrReturn() {
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("회원으로 로그인 되었습니다. 어떤 작업을 하시겠어요?");
-		System.out.println("1. 도서검색 및 대여 \t 2. 도서 반납");
+		System.out.println("어떤 작업을 하시겠어요?  1. 도서검색 및 대여 \t 2. 도서 반납");
 		int rent;
 
 		while (true) {
