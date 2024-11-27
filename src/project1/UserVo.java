@@ -2,7 +2,7 @@ package project1;
 
 import java.util.Date;
 
-public class LibraryVo {
+public class UserVo {
 	
 	// 수업시간 예시 변수
 //	private Long authorId;
@@ -10,7 +10,7 @@ public class LibraryVo {
 //	private String authorDesc;
 //	private Date regdate;
 	
-	public LibraryVo() {
+	public UserVo() {
 		
 	}
 	
