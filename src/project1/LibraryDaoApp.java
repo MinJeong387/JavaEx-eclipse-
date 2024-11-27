@@ -17,23 +17,23 @@ public class LibraryDaoApp {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
-//		ListBooks();
+//		ListBooks(sc);
 
-		Welcome(sc);
+//		Welcome(sc);
 
-//		CustomerIdInput();
+//		CustomerIdInput(sc);
 
-//		ManagerIdInput();
-//		ManagerBookAdd();
+//		ManagerIdInput(sc);
+//		ManagerBookAdd(sc);
 
-//		JoinCustomer();
+//		JoinCustomer(sc);
 
-//		RentOrReturn();
-//		SearchBook();
-//		BookReturn();
+//		RentOrReturn(sc);
+		SearchBook(sc);
+//		BookReturn(sc);
 
-//		BookRentPossible();
-//		BookRentImpossible();
+//		BookRentPossible(sc);
+//		BookRentImpossible(sc);
 
 		sc.close();
 	}
@@ -251,11 +251,15 @@ public class LibraryDaoApp {
 						System.out.println("해당 작가는 존재하지 않습니다.");
 
 					} else {
-						System.out.println("해당 작가의 도서 목록입니다.");
+						
+						Iterator<UserVo> iter = list.iterator();
 
 						System.out.println("===================");
 
-						list.toString();
+						while (iter.hasNext()) {
+							UserVo vo = iter.next();
+							System.out.println(vo);
+						}
 
 						System.out.println("===================");
 
@@ -267,6 +271,27 @@ public class LibraryDaoApp {
 					System.out.println("2번 누르셨습니다. 책 제목으로 검색하겠습니다.");
 					System.out.println("찾고자 하는 도서의 제목을 입력하세요.");
 					String title = sc.next();
+					
+					UserDao dao = new UserDaoImpl();
+					List<UserVo> list = dao.search3(title);
+
+					if (list.isEmpty()) {
+						System.out.println("해당 도서는 존재하지 않습니다.");
+
+					} else {
+						
+						Iterator<UserVo> iter = list.iterator();
+
+						System.out.println("===================");
+
+						while (iter.hasNext()) {
+							UserVo vo = iter.next();
+							System.out.println(vo);
+						}
+
+						System.out.println("===================");
+
+					}
 
 					break;
 				} else if (searchNumber == 3) {
