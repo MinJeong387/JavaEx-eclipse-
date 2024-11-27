@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import com.javaex.jdbc.dao.AuthorDao;
@@ -17,7 +18,7 @@ public class LibraryDaoApp {
 
 //		ListBooks();
 
-//		Welcome(); ***
+		Welcome();
 
 //		CustomerIdInput();
 
@@ -26,7 +27,7 @@ public class LibraryDaoApp {
 
 //		JoinCustomer();
 
-		RentOrReturn();
+//		RentOrReturn();
 //		SearchBook();
 //		BookReturn();
 
@@ -114,28 +115,25 @@ public class LibraryDaoApp {
 
 		if (list.isEmpty()) {
 			System.out.println("회원정보가 없습니다.");
-			
+
 		} else {
+
 			System.out.println("도서대여 화면으로 이동합니다.");
+
 			RentOrReturn();
 
 		}
 
 	}
-	
-	
-	
+
 
 	public static void RentOrReturn() {
 		Scanner sc = new Scanner(System.in);
-
 		System.out.println("어떤 작업을 하시겠어요?  1. 도서검색 및 대여 \t 2. 도서 반납");
-		
-		
+
 		while (true) {
 			try {
-				int rent;
-				rent = sc.nextInt();
+				int rent = sc.nextInt();
 
 				if (rent == 1) {
 					System.out.println("1. 도서 검색을 먼저 시작하겠습니다.");
@@ -150,18 +148,21 @@ public class LibraryDaoApp {
 					break;
 
 				} else {
-					System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+					System.out.println("잘못된 입력입니다. 1 또는 2의 숫자값만 입력해주세요.");
 
 				}
-			}
-
-			catch (NumberFormatException n) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+			} catch (NumberFormatException e) {
+				System.out.println("잘못된 입력입니다. 1 또는 2의 숫자값만 입력해주세요.");
 				sc.next();
 				continue;
 
-			} catch (InputMismatchException i) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+			} catch (InputMismatchException e) {
+				System.out.println("잘못된 입력입니다. 1 또는 2의 숫자값만 입력해주세요.");
+				sc.next();
+				continue;
+
+			} catch (NoSuchElementException e) {
+				System.out.println("잘못된 입력입니다. 1 또는 2의 숫자값만 입력해주세요.");
 				sc.next();
 				continue;
 
@@ -170,7 +171,6 @@ public class LibraryDaoApp {
 		sc.close();
 	}
 
-	
 	public static void ManagerIdInput() {
 		Scanner sc = new Scanner(System.in);
 
@@ -189,7 +189,6 @@ public class LibraryDaoApp {
 
 	}
 
-	
 	public static void ManagerBookAdd() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("추가할 도서의 정보를 입력해주세요.");
@@ -253,29 +252,26 @@ public class LibraryDaoApp {
 					System.out.println("1번 누르셨습니다. 작가로 검색하겠습니다.");
 					System.out.println("찾고자 하는 도서의 작가명을 입력하세요.");
 					String author_name = sc.next();
-					
-					
+
 					UserDao dao = new UserDaoImpl();
 					List<UserVo> list = dao.search2(author_name);
 
 					if (list.isEmpty()) {
 						System.out.println("해당 작가는 존재하지 않습니다.");
-						
+
 					} else {
 						System.out.println("해당 작가의 도서 목록입니다.");
-						
-						
 
 						System.out.println("===================");
 
 						list.toString();
-						
+
 						System.out.println("===================");
-		
+
 					}
 
 					break;
-					
+
 				} else if (searchNumber == 2) {
 					System.out.println("2번 누르셨습니다. 책 제목으로 검색하겠습니다.");
 					System.out.println("찾고자 하는 도서의 제목을 입력하세요.");
@@ -298,7 +294,7 @@ public class LibraryDaoApp {
 					System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.");
 					continue;
 
-				} 
+				}
 			}
 
 			catch (NumberFormatException n) {
@@ -310,7 +306,7 @@ public class LibraryDaoApp {
 				sc.next();
 				continue;
 			}
-			
+
 		}
 
 		// (위에서) 도서목록 출력 하는 식 적어야 함

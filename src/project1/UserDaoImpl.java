@@ -89,6 +89,16 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
 		}
 		return list;
 	}
@@ -109,21 +119,32 @@ public class UserDaoImpl implements UserDao {
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, author_name);
-	
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
 				if (rs.getString(1).equals(author_name)) {
-					
+
 					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3));
 					list.add(vo);
 					break;
 				}
 			}
-		} catch (SQLException e) {
+		}
+
+		catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
 		}
 
 		return list;
