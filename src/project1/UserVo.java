@@ -25,6 +25,14 @@ public class UserVo {
 		
 	}
 	
+	public UserVo(String title, String authorName, String publisher) {
+		super();
+		this.title = title;
+		this.authorName = authorName;
+		this.publisher = publisher;
+		
+	}
+	
 
 	
 

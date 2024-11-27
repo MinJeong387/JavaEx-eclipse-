@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javaex.jdbc.dao.AuthorVo;
-
 public class UserDaoImpl implements UserDao {
 
 	static final String dburl = "jdbc:mysql://localhost:3306/library_db";
@@ -62,10 +60,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<UserVo> search(String name_id, String password) {
-
 		List<UserVo> list = new ArrayList<>();
-		
-		
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -73,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 
 		try {
 			conn = getConnection();
-			
+
 			String sql = "SELECT name_id, password FROM customers WHERE name_id LIKE ? AND password LIKE ?";
 
 			pstmt = conn.prepareStatement(sql);
@@ -85,22 +80,54 @@ public class UserDaoImpl implements UserDao {
 
 			while (rs.next()) {
 
-				if (rs.getString(1) != null) {
+				if (rs.getString(1).equals(name_id) & rs.getString(2).equals(password)) {
 					System.out.println("로그인 성공 !");
 					UserVo vo = new UserVo(rs.getString(1), rs.getString(2));
 					list.add(vo);
+					break;
 				}
-
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
+	@Override
+	public List<UserVo> search2(String author_name) {
+		List<UserVo> list = new ArrayList<>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "SELECT author, title, publisher FROM books WHERE author LIKE ? ";
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, author_name);
+	
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				if (rs.getString(1).equals(author_name)) {
+					
+					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3));
+					list.add(vo);
+					break;
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return list;
-
 	}
-	
 
 	@Override
 	public UserVo get(Long id) {
