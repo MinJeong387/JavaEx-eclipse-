@@ -19,7 +19,7 @@ public class LibraryDaoApp {
 
 //		ListBooks(sc);
 
-		Welcome(sc);
+//		Welcome(sc);
 
 //		CustomerIdInput(sc);
 
@@ -28,7 +28,7 @@ public class LibraryDaoApp {
 
 //		JoinCustomer(sc);
 
-//		RentOrReturn(sc);
+		RentOrReturn(sc);
 
 //		SearchBook(sc);
 
@@ -201,19 +201,29 @@ public class LibraryDaoApp {
 
 	public static void JoinCustomer(Scanner sc) {
 
-		System.out.println("이름, 전화번호, 회원 아이디, 비밀번호를 입력해주세요.");
+		System.out.println("회원 등록을 위해 아래 정보를 입력해주세요.");
 
 		System.out.print("이름: ");
 		String name = sc.next();
-		System.out.print("전화번호: ");
+		System.out.print("메일주소: ");
+		String email = sc.next();
+		System.out.print("전화번호(ex.010-0000-0000): ");
 		String phone_number = sc.next();
+		System.out.print("생년월일(ex.1994-07-25): ");
+		String birth_date = sc.next();
 		System.out.print("회원 아이디: ");
-		String customersId = sc.next();
+		String name_id = sc.next();
 		System.out.print("회원 비밀번호: ");
-		String customersPassword = sc.next();
+		String password = sc.next();
+
+		UserVo vo = new UserVo(name, email, phone_number, birth_date, name_id, password);
+
+		UserDao dao = new UserDaoImpl();
+		boolean success = dao.insert(vo);
+
+		System.out.println("회원등록 " + (success ? "성공 !" : "실패 !"));
 
 		System.out.println("회원으로 등록되었습니다. 첫화면으로 돌아가서 다시 진행해주세요.");
-
 	}
 
 	public static void SearchBook(Scanner sc) {
@@ -361,6 +371,8 @@ public class LibraryDaoApp {
 
 		System.out.println("반납할 도서의 도서 번호를 입력해주세요.");
 		String book_id = sc.next();
+		
+		
 
 		// if문. book_id가 해당 db에 없는경우
 		System.out.println("해당 도서는 존재하지 않습니다. 다시 입력해주세요.");

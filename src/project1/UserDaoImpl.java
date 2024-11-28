@@ -307,21 +307,54 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public UserVo get(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean insert(UserVo vo) {
-		// TODO Auto-generated method stub
-		return false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int insertedCount = 0;
+
+		try {
+			conn = getConnection();
+			String sql = "INSERT INTO Customers (name, email, phone_number, birth_date, name_id, password) VALUES (?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+
+//			(name, email, phone_number, birth_date, name_id, password)
+
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getEmail());
+			pstmt.setString(3, vo.getPhone_number());
+			pstmt.setString(4, vo.getBirth_date());
+			pstmt.setString(5, vo.getName_id());
+			pstmt.setString(6, vo.getPassword());
+
+			insertedCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return 1 == insertedCount;
 	}
 
+	
+	
 	@Override
 	public boolean update(UserVo vo) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public UserVo get(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
