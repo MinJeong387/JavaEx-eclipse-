@@ -15,7 +15,7 @@ public class LibraryDaoApp {
 
 //		ListBooks(sc);
 
-//		Welcome(sc);
+		Welcome(sc);
 
 //		CustomerIdInput(sc);
 
@@ -26,7 +26,7 @@ public class LibraryDaoApp {
 
 //		RentOrReturn(sc);
 
-		SearchBook(sc);
+//		SearchBook(sc);
 
 //		BookReturn(sc);
 
@@ -223,7 +223,6 @@ public class LibraryDaoApp {
 		System.out.println("회원으로 등록되었습니다. 첫화면으로 돌아가서 다시 진행해주세요.");
 	}
 
-	
 	public static void SearchBook(Scanner sc) {
 		int searchNumber = 0;
 
@@ -342,90 +341,6 @@ public class LibraryDaoApp {
 					System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 					continue;
 				}
-			}
-			catch (NumberFormatException n) {
-				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
-				sc.next();
-				continue;
-			} catch (InputMismatchException i) {
-				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
-				sc.next();
-				continue;
-			}
-		}
-		
-		BookRentPossible(sc);
-	}
-	
-	
-	public static void BookRentPossible(Scanner sc) {
-		
-		System.out.println("해당하는 도서 목록을 출력하였습니다. 대출을 원하시는 도서의 번호를 입력해주세요.");		
-		int book_id = sc.nextInt();
-		
-		
-		if(book_id )
-
-		System.out.println("해당 책은 대출 가능합니다.");
-
-		Date today = new Date();
-
-		SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
-		System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 9일 입니다.");
-		System.out.println("기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다");
-		
-		
-		System.out.println("해당 책은 대여중으로 대출 불가능합니다.");
-	}
-
-
-	
-
-	public static void BookReturn(Scanner sc) {
-
-		while (true) {
-
-			try {
-				System.out.println("반납할 도서의 도서 번호를 입력해주세요.");
-				int book_id = sc.nextInt();
-
-				UserDao dao = new UserDaoImpl();
-				List<UserVo> list = dao.searchReturnBook(book_id);
-
-				if (list.isEmpty()) {
-					System.out.println("해당 도서는 존재하지 않습니다. 다시 입력해주세요.\n");
-
-				} else {
-					Iterator<UserVo> iter = list.iterator();
-					
-					System.out.println("===================");
-					while (iter.hasNext()) {
-						UserVo vo = iter.next();
-						System.out.println(vo);
-					}
-					System.out.println("===================");
-					Date now = new Date();
-					
-					System.out.println(Deadline(now));
-					
-					/*
-					
-
-					if(Deadline(now)==true) {
-						System.out.println("기한 내 반납이 완료되었습니다. 안녕히가세요.");
-						
-						
-					}
-					else {
-						System.out.println("반납기한이 지났습니다. 연체료 부과 화면으로 전환됩니다. 연체료를 지불해주세요. 연체료는 연체일x1000원 으로 책정됩니다.");
-						RentalFee();
-					}
-				
-*/
-		
-
-					break;
-				}
 			} catch (NumberFormatException n) {
 				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 				sc.next();
@@ -436,13 +351,92 @@ public class LibraryDaoApp {
 				continue;
 			}
 		}
+
+		BookRentPossible(sc);
 	}
 
+	public static void BookRentPossible(Scanner sc) {
+
+		while (true) {
+			try {
+				System.out.println("해당하는 도서 목록을 출력하였습니다. 대출을 원하시는 도서의 번호를 입력해주세요.");
+
+				int book_id = sc.nextInt();
+
+				UserDao dao = new UserDaoImpl();
+				List<UserVo> list = dao.searchRentalBook(book_id);
+
+				if (list.isEmpty()) {
+					System.out.println("해당 도서는 대여중으로 대출 불가능합니다./n");
+				} else {
+					System.out.println("해당 도서가 대출되었습니다. 대여기간은 9일 입니다. 기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다.");
+
+					// 반납일 계산하는 부분 추가 (건민)
+
+					UserVo vo = new UserVo(book_id);
+
+					UserDao pao = new UserDaoImpl();
+					pao.stockUpdate(vo);
+
+					break;
+				}
+			} catch (NumberFormatException n) {
+				System.out.println("정수 숫자를 입력해주세요.");
+				sc.next();
+				continue;
+			} catch (InputMismatchException i) {
+				System.out.println("정수 숫자를 입력해주세요.");
+				sc.next();
+				continue;
+			}
+			/*
+			 * Date today = new Date();
+			 * 
+			 * SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
+			 * System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 9일 입니다.");
+			 */
+		}
+
+	}
+
+	public static void BookReturn(Scanner sc) {
+		while (true) {
+			try {
+				System.out.println("반납할 도서의 도서 번호를 입력해주세요.");
+				int book_id = sc.nextInt();
+
+				UserDao dao = new UserDaoImpl();
+				List<UserVo> list = dao.searchReturnBook(book_id);
+
+				if (list.isEmpty()) {
+					System.out.println("반납 대상 도서가 아닙니다. 도서 번호 다시 입력해주세요./n");
+
+				} else {
+					System.out.println("해당 도서 반납 완료 되었습니다.");
+
+					UserVo vo = new UserVo(book_id);
+					UserDao pao = new UserDaoImpl();
+					pao.stockUpdate2(vo);
+
+					// if 문 이용해서, 반납일 > 반납예정일 -> 연체료 부과화면으로 전환. 해당 안되면 그냥 보내기
+					// rentalFee();
+
+					break;
+				}
+			} catch (NumberFormatException n) {
+				System.out.println("정수 숫자를 입력해주세요.");
+				sc.next();
+				continue;
+			} catch (InputMismatchException i) {
+				System.out.println("정수 숫자를 입력해주세요.");
+				sc.next();
+				continue;
+			}
+		}
+	}
 
 	
 	
-	
-
 	public static void rentalFee() {
 
 	}

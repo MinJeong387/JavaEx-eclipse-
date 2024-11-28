@@ -111,6 +111,9 @@ public class UserDaoImpl implements UserDao {
 		}
 		return list;
 	}
+	
+	
+	
 
 	@Override
 	public List<UserVo> search2(String author_name) {
@@ -380,6 +383,9 @@ public class UserDaoImpl implements UserDao {
 		return 1 == insertedCount;
 	}
 	
+	
+	
+	@Override
 	public List<UserVo> searchRentalBook(int book_id){
 		List<UserVo> list = new ArrayList<>();
 
@@ -389,7 +395,9 @@ public class UserDaoImpl implements UserDao {
 
 		try {
 			conn = getConnection();
-			String sql = "SELECT book_id FROM rental WHERE book_id LIKE ? ";
+			String sql = "SELECT id, title\r\n"
+					+ "FROM books\r\n"
+					+ "WHERE stock=1 AND id LIKE ? ";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, book_id);
@@ -399,18 +407,11 @@ public class UserDaoImpl implements UserDao {
 			while (rs.next()) {
 
 				if (rs.getInt(1) == book_id) {
-
-					String Title = rs.getString(1);
-					String authorName = rs.getString(2);
-					String publisher = rs.getString(3);
-					String pubdate = rs.getString(4);
-					Integer rate = rs.getInt(5);
-					Integer locationId = rs.getInt(6);
-					String type = rs.getString(7);
-					Integer book_id = rs.getInt(8);
+					
+					Integer Book_id = rs.getInt(1);
 					
 
-					UserVo vo = new UserVo(Title, authorName, publisher, pubdate, rate, locationId, type, book_id);
+					UserVo vo = new UserVo(Book_id);
 					list.add(vo);
 				}
 			}
@@ -429,23 +430,44 @@ public class UserDaoImpl implements UserDao {
 			}
 		}
 
-		return list;
-		
-		
-		
+		return list;		
 	}
 	
 	
 	
 	
-	
-	/*
 	@Override
-	public boolean update(UserVo vo) {
-	
-	}
+	public boolean stockUpdate(UserVo vo){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int insertedCount = 0;
 
-	*/
+		try {
+			conn = getConnection();
+			String sql = "UPDATE books\r\n"
+					+ "SET stock = 0\r\n"
+					+ "WHERE id LIKE ?;";
+			pstmt = conn.prepareStatement(sql);
+
+			
+			pstmt.setInt(1, vo.getId());
+
+			insertedCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return 1 == insertedCount;
+	}
 	
 	
 	
@@ -459,23 +481,21 @@ public class UserDaoImpl implements UserDao {
 
 		try {
 			conn = getConnection();
-			String sql = "SELECT books.id, books.title, authors.author_name, publishers.publisher_name, pub_date, rate, Locations_id, types.type_name\r\n"
-					+ "FROM books JOIN authors ON books.author_id = authors.author_id\r\n"
-					+ "			JOIN types ON books.type_id = types.type_id\r\n"
-					+ "			JOIN publishers ON books.publisher_id = publishers.publisher_id\r\n"
-					+ "WHERE books.id LIKE ? ";
+			String sql = "SELECT id, title\r\n"
+					+ "FROM books\r\n"
+					+ "WHERE stock=0 AND id LIKE ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, book_id);
 
 			rs = pstmt.executeQuery();
-
 			while (rs.next()) {
 
 				if (rs.getInt(1) == book_id) {
+					
+					Integer Book_id = rs.getInt(1);
 
-					UserVo vo = new UserVo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getInt(6), rs.getInt(7), rs.getString(8));
+					UserVo vo = new UserVo(Book_id);
 					list.add(vo);
 				}
 			}
@@ -497,6 +517,41 @@ public class UserDaoImpl implements UserDao {
 
 		return list;
 	}
+	
+	@Override
+	public boolean stockUpdate2(UserVo vo){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		int insertedCount = 0;
+
+		try {
+			conn = getConnection();
+			String sql = "UPDATE books\r\n"
+					+ "SET stock = 1\r\n"
+					+ "WHERE id LIKE ?;";
+			pstmt = conn.prepareStatement(sql);
+
+			
+			pstmt.setInt(1, vo.getId());
+
+			insertedCount = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return 1 == insertedCount;
+	}
+	
+	
 
 	@Override
 	public boolean insertRental(UserVo vo) {

@@ -22,11 +22,13 @@ public interface UserDao {
 	public boolean insertRental(UserVo vo);
 	public List<UserVo> searchRentalBook(int book_id);
 	
+	public boolean stockUpdate(UserVo vo);							// stock 0으로 전환
+	
 	
 	// 도서 반납
 	public List<UserVo> searchReturnBook(int book_id);
 	public boolean Deadline(Date date);
-	
+	public boolean stockUpdate2(UserVo vo);							// stock 1로 전환
 	
 	
 	

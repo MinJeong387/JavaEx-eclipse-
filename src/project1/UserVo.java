@@ -23,6 +23,11 @@ public class UserVo {
 
 	}
 
+	public UserVo(int id) {
+		super();
+		this.id = id;
+	}
+
 	public UserVo(String title, String authorName) {
 		super();
 		this.title = title;
