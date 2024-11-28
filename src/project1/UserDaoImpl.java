@@ -51,9 +51,8 @@ public class UserDaoImpl implements UserDao {
 				String publisher = rs.getString(3);
 				String pubdate = rs.getString(4);
 				Integer rate = rs.getInt(5);
-				Integer locationId = rs.getInt(6);				
+				Integer locationId = rs.getInt(6);
 				String type = rs.getString(7);
-				
 
 				UserVo vo = new UserVo(title, authorName, publisher, pubdate, rate, locationId, type);
 
@@ -136,7 +135,8 @@ public class UserDaoImpl implements UserDao {
 
 				if (rs.getString(2).equals(author_name)) {
 
-					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7));
+					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getInt(6), rs.getString(7));
 					list.add(vo);
 				}
 			}
@@ -158,7 +158,7 @@ public class UserDaoImpl implements UserDao {
 
 		return list;
 	}
-	
+
 	@Override
 	public List<UserVo> search3(String title) {
 		List<UserVo> list = new ArrayList<>();
@@ -184,7 +184,106 @@ public class UserDaoImpl implements UserDao {
 
 				if (rs.getString(1).equals(title)) {
 
-					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getString(7));
+					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getInt(6), rs.getString(7));
+					list.add(vo);
+				}
+			}
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<UserVo> search4(String publisher) {
+		List<UserVo> list = new ArrayList<>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+			String sql = "SELECT books.title, authors.author_name, publishers.publisher_name, pub_date, rate, Locations_id, types.type_name\r\n"
+					+ "FROM books JOIN authors ON books.author_id = authors.author_id\r\n"
+					+ "			JOIN types ON books.type_id = types.type_id\r\n"
+					+ "			JOIN publishers ON books.publisher_id = publishers.publisher_id\r\n"
+					+ "WHERE publishers.publisher_name LIKE ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, publisher);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				if (rs.getString(3).equals(publisher)) {
+
+					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getInt(6), rs.getString(7));
+					list.add(vo);
+				}
+			}
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (Exception e) {
+			}
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<UserVo> search5(String type) {
+		List<UserVo> list = new ArrayList<>();
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+			String sql = "SELECT books.title, authors.author_name, publishers.publisher_name, pub_date, rate, Locations_id, types.type_name\r\n"
+					+ "FROM books JOIN authors ON books.author_id = authors.author_id\r\n"
+					+ "			JOIN types ON books.type_id = types.type_id\r\n"
+					+ "			JOIN publishers ON books.publisher_id = publishers.publisher_id\r\n"
+					+ "WHERE types.type_name LIKE ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, type);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				if (rs.getString(7).equals(type)) {
+
+					UserVo vo = new UserVo(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getInt(6), rs.getString(7));
 					list.add(vo);
 				}
 			}
