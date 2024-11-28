@@ -17,6 +17,8 @@ public class UserVo {
 	private String name_id;
 	private String password;
 
+	private Integer id;
+
 	public UserVo() {
 
 	}
@@ -64,6 +66,20 @@ public class UserVo {
 
 	}
 
+	public UserVo(int id, String title, String authorName, String publisher, String pubdate, int rate, int locationId,
+			String type) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.authorName = authorName;
+		this.publisher = publisher;
+		this.pubdate = pubdate;
+		this.locationId = locationId;
+		this.type = type;
+		this.rate = rate;
+
+	}
+
 	public UserVo(String title, String authorName, String publisher, String pubdate, int rate, int locationId,
 			String type) {
 		super();
@@ -74,6 +90,20 @@ public class UserVo {
 		this.locationId = locationId;
 		this.type = type;
 		this.rate = rate;
+
+	}
+
+	public UserVo(String title, String authorName, String publisher, String pubdate, int rate, int locationId,
+			String type, int id) {
+		super();
+		this.title = title;
+		this.authorName = authorName;
+		this.publisher = publisher;
+		this.pubdate = pubdate;
+		this.locationId = locationId;
+		this.type = type;
+		this.rate = rate;
+		this.id = id;
 
 	}
 
@@ -147,8 +177,8 @@ public class UserVo {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}	
-	
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -181,10 +211,19 @@ public class UserVo {
 		this.name_id = name_id;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVo [제목=" + title + ", 작가=" + authorName + ", 출판사=" + publisher + ", 출판일=" + pubdate + ", 별점=" + rate
-				+ ", 위치=" + locationId + ", 장르=" + type + "]";
+				+ ", 위치=" + locationId + ", 도서 번호=" + id + "]";
+
 	}
 
 }

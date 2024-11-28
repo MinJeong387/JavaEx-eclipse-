@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import com.javaex.jdbc.dao.AuthorDao;
-import com.javaex.jdbc.dao.AuthorDaoImpl;
-import com.javaex.jdbc.dao.AuthorVo;
-
 public class LibraryDaoApp {
 
 	public static void main(String[] args) {
@@ -28,14 +24,15 @@ public class LibraryDaoApp {
 
 //		JoinCustomer(sc);
 
-		RentOrReturn(sc);
+//		RentOrReturn(sc);
 
-//		SearchBook(sc);
+		SearchBook(sc);
 
 //		BookReturn(sc);
 
 //		BookRentPossible(sc);
-//		BookRentImpossible(sc);
+
+//		RentalFee();
 
 		sc.close();
 	}
@@ -226,6 +223,7 @@ public class LibraryDaoApp {
 		System.out.println("회원으로 등록되었습니다. 첫화면으로 돌아가서 다시 진행해주세요.");
 	}
 
+	
 	public static void SearchBook(Scanner sc) {
 		int searchNumber = 0;
 
@@ -260,6 +258,7 @@ public class LibraryDaoApp {
 						System.out.println("===================");
 						break;
 					}
+
 				} else if (searchNumber == 2) {
 					System.out.println("2번 누르셨습니다. 책 제목으로 검색하겠습니다.");
 					System.out.println("찾고자 하는 도서의 제목을 입력하세요.");
@@ -339,14 +338,11 @@ public class LibraryDaoApp {
 
 						break;
 					}
-
 				} else {
 					System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 					continue;
-
 				}
 			}
-
 			catch (NumberFormatException n) {
 				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 				sc.next();
@@ -356,36 +352,19 @@ public class LibraryDaoApp {
 				sc.next();
 				continue;
 			}
-
 		}
-
-		System.out.println("해당하는 도서 목록을 출력하였습니다. 대출 혹은 예약을 원하시는 도서의 번호를 입력해주세요.");
-
-		// 대출 가능한지 아닌지 도서목록의 대출여부와 비교 (if문)
-		BookRentPossible();
-		BookRentImpossible(sc);
-
+		
+		BookRentPossible(sc);
 	}
-
-	public static void BookReturn(Scanner sc) {
-
-		System.out.println("반납할 도서의 도서 번호를 입력해주세요.");
-		String book_id = sc.next();
+	
+	
+	public static void BookRentPossible(Scanner sc) {
+		
+		System.out.println("해당하는 도서 목록을 출력하였습니다. 대출을 원하시는 도서의 번호를 입력해주세요.");		
+		int book_id = sc.nextInt();
 		
 		
-
-		// if문. book_id가 해당 db에 없는경우
-		System.out.println("해당 도서는 존재하지 않습니다. 다시 입력해주세요.");
-
-		// 반납기한이 지난경우
-		System.out.println("반납기한이 지났습니다. 연체료를 지불해주세요. 연체료는 연체일x1000원 으로 책정됩니다.");
-
-		// 반납기한이 지나지 않은 경우
-		System.out.println("기한 내 반납이 완료되었습니다. 안녕히가세요.");
-
-	}
-
-	public static void BookRentPossible() {
+		if(book_id )
 
 		System.out.println("해당 책은 대출 가능합니다.");
 
@@ -394,48 +373,77 @@ public class LibraryDaoApp {
 		SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
 		System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 9일 입니다.");
 		System.out.println("기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다");
+		
+		
+		System.out.println("해당 책은 대여중으로 대출 불가능합니다.");
 	}
 
-	public static void BookRentImpossible(Scanner sc) {
 
-		System.out.println("해당 책은 대여중으로 대출 불가능합니다. 예약을 원하시면 1 \t 원하지 않으시면 2 눌러주세요");
-		int reserve;
+	
+
+	public static void BookReturn(Scanner sc) {
 
 		while (true) {
 
 			try {
-				reserve = sc.nextInt();
+				System.out.println("반납할 도서의 도서 번호를 입력해주세요.");
+				int book_id = sc.nextInt();
 
-				if (reserve == 1) {
-					System.out.println("1. 도서 예약을 선택하셨습니다.");
+				UserDao dao = new UserDaoImpl();
+				List<UserVo> list = dao.searchReturnBook(book_id);
 
-					System.out.println("해당 도서의 반납 예정일은 000 입니다. 다시 연락드리겠습니다.");
-
-					break;
-
-				} else if (reserve == 2) {
-					System.out.println("2. 예약하지 않겠습니다. 처음화면에서 다시 시작해주세요.");
-
-					break;
+				if (list.isEmpty()) {
+					System.out.println("해당 도서는 존재하지 않습니다. 다시 입력해주세요.\n");
 
 				} else {
-					System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+					Iterator<UserVo> iter = list.iterator();
+					
+					System.out.println("===================");
+					while (iter.hasNext()) {
+						UserVo vo = iter.next();
+						System.out.println(vo);
+					}
+					System.out.println("===================");
+					Date now = new Date();
+					
+					System.out.println(Deadline(now));
+					
+					/*
+					
 
+					if(Deadline(now)==true) {
+						System.out.println("기한 내 반납이 완료되었습니다. 안녕히가세요.");
+						
+						
+					}
+					else {
+						System.out.println("반납기한이 지났습니다. 연체료 부과 화면으로 전환됩니다. 연체료를 지불해주세요. 연체료는 연체일x1000원 으로 책정됩니다.");
+						RentalFee();
+					}
+				
+*/
+		
+
+					break;
 				}
-			}
-
-			catch (NumberFormatException n) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+			} catch (NumberFormatException n) {
+				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 				sc.next();
 				continue;
-
 			} catch (InputMismatchException i) {
-				System.out.println("1 또는 2의 숫자값만 입력해주세요.");
+				System.out.println("1 또는 2 또는 3또는 4의 숫자값만 입력해주세요.\n");
 				sc.next();
 				continue;
-
 			}
 		}
+	}
+
+
+	
+	
+	
+
+	public static void rentalFee() {
 
 	}
 }

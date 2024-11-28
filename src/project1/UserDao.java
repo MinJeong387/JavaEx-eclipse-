@@ -1,5 +1,6 @@
 package project1;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserDao {
@@ -17,11 +18,14 @@ public interface UserDao {
 	public boolean insert(UserVo vo);
 	
 	
+	// 도서 대여
+	public boolean insertRental(UserVo vo);
+	public List<UserVo> searchRentalBook(int book_id);
 	
 	
-	
-	
-	public boolean update(UserVo vo);
+	// 도서 반납
+	public List<UserVo> searchReturnBook(int book_id);
+	public boolean Deadline(Date date);
 	
 	
 	
