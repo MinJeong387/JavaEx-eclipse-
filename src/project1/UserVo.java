@@ -1,5 +1,7 @@
 package project1;
 
+import java.util.Date;
+
 public class UserVo {
 
 	private String title;
@@ -18,6 +20,19 @@ public class UserVo {
 	private String password;
 
 	private Integer id;
+	private Integer customer_id;
+	
+	
+	
+	
+	
+
+	/*
+	 * private Date date; private Date today;
+	 */
+
+	private java.sql.Date today;
+	private java.sql.Date date;
 
 	public UserVo() {
 
@@ -49,6 +64,22 @@ public class UserVo {
 		this.authorName = authorName;
 		this.publisher = publisher;
 		this.rate = rate;
+	}
+
+	public UserVo(Integer id, Integer customer_id, Date today, Date date) {
+		super();
+		this.id = id;
+		this.customer_id = customer_id;
+		this.today = (java.sql.Date) today;
+		this.date = (java.sql.Date) date;
+	}
+
+	public UserVo(Integer id, Integer customer_id, Integer rate, Integer locationId) {
+		super();
+		this.id = id;
+		this.customer_id = customer_id;
+		this.rate = rate;
+		this.locationId = locationId;
 	}
 
 	public UserVo(String title, String authorName, String publisher, String type, Integer rate) {
@@ -224,10 +255,45 @@ public class UserVo {
 		this.id = id;
 	}
 
+	public Integer getCustomer_id() {
+		return customer_id;
+	}
+
+	public void setCustomer_id(Integer customer_id) {
+		this.customer_id = customer_id;
+	}
+
+	/*
+	 * public Date getDate() { return date; }
+	 * 
+	 * public void setDate(Date date) { this.date = date; }
+	 * 
+	 * public Date getToday() { return today; }
+	 * 
+	 * public void setToday(Date today) { this.today = today; }
+	 */
+
+	// Getter 및 Setter도 수정
+	public java.sql.Date getToday() {
+		return today;
+	}
+
+	public void setToday(java.sql.Date today) {
+		this.today = today;
+	}
+
+	public java.sql.Date getDate() {
+		return date;
+	}
+
+	public void setDate(java.sql.Date date) {
+		this.date = date;
+	}
+
 	@Override
 	public String toString() {
 		return "UserVo [제목=" + title + ", 작가=" + authorName + ", 출판사=" + publisher + ", 출판일=" + pubdate + ", 별점=" + rate
-				+ ", 위치=" + locationId + ", 도서 번호=" + id + "]";
+				+ ", 위치=" + locationId + ", 장르=" + type + ", 도서 번호=" + id + "]";
 
 	}
 

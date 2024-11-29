@@ -1,6 +1,7 @@
 package project1;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -9,13 +10,14 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class LibraryDaoApp {
+	private static UserVo currentUser;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
 //		ListBooks(sc);
 
-		Welcome(sc);
+//		Welcome(sc);
 
 //		CustomerIdInput(sc);
 
@@ -28,7 +30,7 @@ public class LibraryDaoApp {
 
 //		SearchBook(sc);
 
-//		BookReturn(sc);
+		BookReturn(sc);
 
 //		BookRentPossible(sc);
 
@@ -37,21 +39,18 @@ public class LibraryDaoApp {
 		sc.close();
 	}
 
-	private static void ListBooks() {
-		UserDao dao = new UserDaoImpl();
-
-		List<UserVo> list = dao.getList();
-		Iterator<UserVo> iter = list.iterator();
-
-		System.out.println("===================");
-
-		while (iter.hasNext()) {
-			UserVo vo = iter.next();
-			System.out.println(vo);
-		}
-
-		System.out.println("===================");
-	}
+	// 리스트 전체 뽑으려 했던 것 (호정님)
+	/*
+	 * private static void ListBooks() { UserDao dao = new UserDaoImpl();
+	 * 
+	 * List<UserVo> list = dao.getList(); Iterator<UserVo> iter = list.iterator();
+	 * 
+	 * System.out.println("===================");
+	 * 
+	 * while (iter.hasNext()) { UserVo vo = iter.next(); System.out.println(vo); }
+	 * 
+	 * System.out.println("==================="); }
+	 */
 
 	public static void Welcome(Scanner sc) {
 
@@ -107,6 +106,8 @@ public class LibraryDaoApp {
 			if (list.isEmpty()) {
 				System.out.println("회원정보가 없습니다.\n");
 			} else {
+
+				currentUser = list.get(0); // list의 첫줄을 가져온다 (=첫번째 요소 가져온다)
 				System.out.println("도서대여 화면으로 이동합니다.\n");
 
 				RentOrReturn(sc);
@@ -360,26 +361,63 @@ public class LibraryDaoApp {
 		while (true) {
 			try {
 				System.out.println("해당하는 도서 목록을 출력하였습니다. 대출을 원하시는 도서의 번호를 입력해주세요.");
-
 				int book_id = sc.nextInt();
 
 				UserDao dao = new UserDaoImpl();
 				List<UserVo> list = dao.searchRentalBook(book_id);
 
 				if (list.isEmpty()) {
-					System.out.println("해당 도서는 대여중으로 대출 불가능합니다./n");
+					System.out.println("해당 도서는 대여중으로 대출 불가능합니다.\n");
 				} else {
-					System.out.println("해당 도서가 대출되었습니다. 대여기간은 9일 입니다. 기한 내 반납 미완료시 1일마다 연체료 1000원씩 부과됩니다.");
 
-					// 반납일 계산하는 부분 추가 (건민)
+					List<UserVo> list2 = dao.getList(book_id);
 
-					UserVo vo = new UserVo(book_id);
-
-					UserDao pao = new UserDaoImpl();
-					pao.stockUpdate(vo);
-
-					break;
+					for (UserVo vo : list2) {
+						System.out.println("===================");
+						System.out.println(vo);
+						System.out.println("===================");
+					}
+					System.out.println("해당 도서가 대출되었습니다.\n");
 				}
+
+				// 오늘 날짜 구하기
+				Date today = new Date();
+
+				// Calendar 객체 생성 및 오늘 날짜 설정
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(today);
+
+				// 대여 기간 더하기 (9일)
+				cal.add(Calendar.DATE, 9);
+
+				// 결과 출력
+				Date returnDate = cal.getTime();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+				String formattedDate = sdf.format(returnDate);
+				System.out
+						.println("대여기간은 9일로, 책 반납일은 " + formattedDate + " 입니다.\n기한 내 반납 미완료시 1일마다 연체료 10000원씩 부과됩니다.");
+
+				UserVo vo = new UserVo(book_id);
+				dao.stockUpdate(vo); // stock을 0으로 update
+
+				List<UserVo> list3 = dao.findCustomerUserId(currentUser.getTitle());
+				int customer_Id = list3.get(0).getId(); // customer_Id에 책 대여한 사람의 id(정수값) 저장
+
+				// 현재 날짜
+				java.util.Date todayUtilDate = new java.util.Date();
+				java.sql.Date today2 = new java.sql.Date(todayUtilDate.getTime());
+
+				// 반납 예정일 계산 (9일 후)
+				Calendar cal2 = Calendar.getInstance();
+				cal2.setTime(todayUtilDate);
+				cal2.add(Calendar.DATE, 9);
+				java.sql.Date returnDate2 = new java.sql.Date(cal2.getTimeInMillis());
+
+				UserVo bo = new UserVo(book_id, customer_Id, today2, returnDate2);
+
+				dao.insertRental(bo);
+
+				break;
 			} catch (NumberFormatException n) {
 				System.out.println("정수 숫자를 입력해주세요.");
 				sc.next();
@@ -389,14 +427,7 @@ public class LibraryDaoApp {
 				sc.next();
 				continue;
 			}
-			/*
-			 * Date today = new Date();
-			 * 
-			 * SimpleDateFormat now = new SimpleDateFormat("yyyy년 MM월 dd일");
-			 * System.out.println("오늘은 " + now.format(today) + " 입니다. 대여 기간은 9일 입니다.");
-			 */
 		}
-
 	}
 
 	public static void BookReturn(Scanner sc) {
@@ -409,20 +440,29 @@ public class LibraryDaoApp {
 				List<UserVo> list = dao.searchReturnBook(book_id);
 
 				if (list.isEmpty()) {
-					System.out.println("반납 대상 도서가 아닙니다. 도서 번호 다시 입력해주세요./n");
+					System.out.println("반납 대상 도서가 아닙니다. 도서 번호 다시 입력해주세요.\n");
 
 				} else {
 					System.out.println("해당 도서 반납 완료 되었습니다.");
+					dao.returnBook(book_id);
 
 					UserVo vo = new UserVo(book_id);
-					UserDao pao = new UserDaoImpl();
-					pao.stockUpdate2(vo);
+					dao.stockUpdate2(vo);
 
-					// if 문 이용해서, 반납일 > 반납예정일 -> 연체료 부과화면으로 전환. 해당 안되면 그냥 보내기
-					// rentalFee();
+					int overdueDays = dao.OverDays(book_id); // 반납 초과일 변수
+					System.out.println("Overdue Days: " + overdueDays); // 디버깅용 로그 추가
+
+					if (overdueDays > 0) {
+						int lateFee = overdueDays * 10000; // 연체료 계산
+						System.out.println("반납 예정일을 초과하였습니다. 연체료는 " + lateFee + "원 입니다.");
+
+					} else {
+						System.out.println("반납이 정상적으로 완료되었습니다.");
+					}
 
 					break;
 				}
+
 			} catch (NumberFormatException n) {
 				System.out.println("정수 숫자를 입력해주세요.");
 				sc.next();
@@ -435,8 +475,6 @@ public class LibraryDaoApp {
 		}
 	}
 
-	
-	
 	public static void rentalFee() {
 
 	}

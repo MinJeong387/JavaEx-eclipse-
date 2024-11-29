@@ -5,8 +5,9 @@ import java.util.List;
 
 public interface UserDao {
 	
+	
 	// 도서조회
-	public List<UserVo> getList();									// 전체 책 목록
+	public List<UserVo> getList(int book_id);						// 책 번호로 해당 책 정보 꺼내오기
 	public List<UserVo> search(String name_id, String password);	// 회원 검색
 	public List<UserVo> search2(String author_name);				// 작가 검색
 	public List<UserVo> search3(String title);						// 제목 검색
@@ -19,10 +20,13 @@ public interface UserDao {
 	
 	
 	// 도서 대여
-	public boolean insertRental(UserVo vo);
 	public List<UserVo> searchRentalBook(int book_id);
 	
 	public boolean stockUpdate(UserVo vo);							// stock 0으로 전환
+	
+	public List<UserVo> findCustomerUserId(String name_id);
+	public boolean insertRental(UserVo vo);							// rental 테이블에 정보 추가
+	
 	
 	
 	// 도서 반납
@@ -30,11 +34,12 @@ public interface UserDao {
 	public boolean Deadline(Date date);
 	public boolean stockUpdate2(UserVo vo);							// stock 1로 전환
 	
+	boolean returnBook(int bookId);									// SQL real_return에 오늘날짜 찍기
+	public int OverDays(int book_id);
 	
 	
-	// 매니저권한 : 도서등록
 	
-	
+	// 매니저권한 : 도서등록	
 	
 	public List<UserVo> getListC();
 	
