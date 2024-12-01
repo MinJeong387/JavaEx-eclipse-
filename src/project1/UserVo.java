@@ -11,7 +11,7 @@ public class UserVo {
 	private Integer rate;
 	private Integer locationId;
 	private String type;
-
+	
 	private String name;
 	private String email;
 	private String phone_number;
@@ -22,9 +22,7 @@ public class UserVo {
 	private Integer id;
 	private Integer customer_id;
 	
-	
-	
-	
+
 	
 
 	/*
@@ -34,14 +32,16 @@ public class UserVo {
 	private java.sql.Date today;
 	private java.sql.Date date;
 
-	public UserVo() {
 
-	}
 
+	
+	
 	public UserVo(int id) {
 		super();
 		this.id = id;
 	}
+
+
 
 	public UserVo(String title, String authorName) {
 		super();
@@ -142,6 +142,9 @@ public class UserVo {
 		this.id = id;
 
 	}
+	
+	
+
 
 	public String getTitle() {
 		return title;
