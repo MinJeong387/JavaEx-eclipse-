@@ -565,6 +565,7 @@ public class LibraryDaoApp {
 
 	// 신규 도서 추가
 	public static void BookAdd(Scanner sc) {
+		ManagerVo vo = new ManagerVo();
 		System.out.println("추가할 도서의 정보를 입력해주세요.");
 		System.out.print("도서명: ");
 		String title = sc.nextLine();
@@ -592,8 +593,21 @@ public class LibraryDaoApp {
 		System.out.print("출판사 이메일: ");
 		String publisherEmail = sc.nextLine();
 
-		System.out.print("별점 (정수로 입력): ");
-		int rate = sc.nextInt();
+		
+		 int rate;
+		    do {
+		        System.out.print("별점 (1~5 사이의 정수): ");
+		        rate = sc.nextInt();
+		        if (rate < 1 || rate > 5) {
+		            System.out.println("평점은 1에서 5 사이의 값이어야 합니다. 다시 입력해주세요.");
+		        }
+		    } while (rate < 1 || rate > 5);
+		    vo.setRate(rate);
+		    sc.nextLine(); // 개행문자 제거
+		
+		
+		
+		
 		System.out.print("위치ID (고유값이어야 함): ");
 		int locationsId = sc.nextInt();
 
