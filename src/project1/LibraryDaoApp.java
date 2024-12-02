@@ -18,7 +18,7 @@ public class LibraryDaoApp {
 
 //		ListBooks(sc);
 
-//		Welcome(sc);
+		Welcome(sc);
 
 //		CustomerIdInput(sc);
 
@@ -43,7 +43,7 @@ public class LibraryDaoApp {
 
 //		ManagerPage(sc); // 관리자화면
 //		ManagerListBooks(); // 전체도서리스트
-		BookAdd(sc); // 도서추가
+//		BookAdd(sc); // 도서추가
 //		BookDelete(sc); // 도서삭제
 //		getCustomerList(); // 전체회원리스트
 //		UserDelete(sc); // 회원삭제
@@ -529,9 +529,10 @@ public class LibraryDaoApp {
 		Iterator<ManagerVo> iter = list.iterator();
 
 		String header = String.format(
-				"| %-4s | %-25s | %-20s | %-10s | %-20s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5s | %-5s | %-8s |",
-				"ID", "제목", "저자", "장르", "출판사", "출판일", "대여일", "반납일", "대여자 이름", "대여자 아이디", "평점", "재고", "위치 ID");
-		String separator = "----".repeat(55);
+				"| %-4s | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-25s | %-12s | %-12s | %-12s | %-15s | %-15s | %-5s | %-5s | %-8s |",
+				"ID", "제목", "저자", "저자 이메일", "장르", "출판사", "출판사 전화번호", "출판사 이메일", "출판일", "대여일", "반납일", "대여자 이름",
+				"대여자 아이디", "평점", "재고", "위치 ID");
+		String separator = "----".repeat(75);
 
 		System.out.println(separator);
 		System.out.println(header);
@@ -542,17 +543,18 @@ public class LibraryDaoApp {
 			ManagerVo vo = iter.next();
 			// 각 도서 정보를 테이블 형식으로 출력
 			System.out.printf(
-					"| %-4d | %-25s | %-20s | %-10s | %-20s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5d | %-5d | %-8d |%n",
-					vo.getBookId(), vo.getTitle(), vo.getAuthorName(), vo.getTypeName(), vo.getPublisherName(),
-					vo.getPubDate(), vo.getRentalDate(), vo.getReturnDate(), vo.getName(), vo.getNameId(), vo.getRate(),
-					vo.getStock(), vo.getLocationsId());
+					"| %-4d | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-25s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5d | %-5d | %-8d |%n",
+					vo.getBookId(), vo.getTitle(), vo.getAuthorName(), vo.getAuthorEmail(), vo.getTypeName(),
+					vo.getPublisherName(), vo.getPublisherNumber(), vo.getPublisherEmail(), vo.getPubDate(),
+					vo.getRentalDate(), vo.getReturnDate(), vo.getName(), vo.getNameId(), vo.getRate(), vo.getStock(),
+					vo.getLocationsId());
 		}
 
 		System.out.println(separator);
 	}
 
 	// 신규 도서 추가
-	public static void BookAdd(Scanner sc) {		
+	public static void BookAdd(Scanner sc) {
 		System.out.println("추가할 도서의 정보를 입력해주세요.");
 		System.out.print("도서명: ");
 		String title = sc.nextLine();
@@ -562,8 +564,6 @@ public class LibraryDaoApp {
 		String authorName = sc.nextLine();
 		System.out.print("작가 이메일: ");
 		String authorEmail = sc.nextLine();
-		
-		
 
 		System.out.print("장르ID: ");
 		int typeId = sc.nextInt();
@@ -571,66 +571,56 @@ public class LibraryDaoApp {
 		System.out.print("출판일 (YYYY-MM-DD): ");
 		String pubDate = sc.next();
 
-		
 		// 수정
 		System.out.print("출판사 이름: ");
 		sc.nextLine();
 		String publisherName = sc.nextLine();
-		
+
 		System.out.print("출판사 전화번호: ");
 		String publisherTel = sc.nextLine();
-		
+
 		System.out.print("출판사 이메일: ");
 		String publisherEmail = sc.nextLine();
 
-		
 		System.out.print("별점 (정수로 입력): ");
 		int rate = sc.nextInt();
 		System.out.print("위치ID (고유값이어야 함): ");
 		int locationsId = sc.nextInt();
-		
-		ManagerDaoImpl dao = new ManagerDaoImpl();		
-		
+
+		ManagerDaoImpl dao = new ManagerDaoImpl();
+
 		ManagerVo newAuthor = new ManagerVo(authorName, authorEmail);
 		dao.insertAuthor(newAuthor);
-		
+
 		ManagerVo newPublisher = new ManagerVo(publisherName, publisherTel, publisherEmail);
 		dao.insertPublisher(newPublisher);
-		
-		
+
 		// ManagerVo 객체 생성
 		ManagerVo book = new ManagerVo(title, pubDate, rate, locationsId, typeId, publisherName, authorName);
-	
-		
-	
+
 		if (dao.insert(book)) {
 			System.out.println("도서가 성공적으로 추가되었습니다.");
 
 		} else {
 			System.out.println("도서 추가에 실패했습니다. Location ID 중복일 수 있습니다.");
 		}
-		 
-		 
-		/*
-		boolean success = dao.insert(book);
 
-		if (success) {
-			System.out.println("도서가 성공적으로 추가되었습니다.");
-		} else {
-			System.out.println("도서 추가에 실패했습니다.");
-		}
-		*/
-		
 		/*
-		boolean authorAdded = dao.insertAuthor(newAuthor);
-		boolean publisherAdded = dao.insertPublisher(newPublisher);
+		 * boolean success = dao.insert(book);
+		 * 
+		 * if (success) { System.out.println("도서가 성공적으로 추가되었습니다."); } else {
+		 * System.out.println("도서 추가에 실패했습니다."); }
+		 */
 
-		System.out.println("작가 추가 성공 여부: " + authorAdded);
-		System.out.println("출판사 추가 성공 여부: " + publisherAdded);
-	
-		*/
-		
-		
+		/*
+		 * boolean authorAdded = dao.insertAuthor(newAuthor); boolean publisherAdded =
+		 * dao.insertPublisher(newPublisher);
+		 * 
+		 * System.out.println("작가 추가 성공 여부: " + authorAdded);
+		 * System.out.println("출판사 추가 성공 여부: " + publisherAdded);
+		 * 
+		 */
+
 		sc.nextLine();
 	}
 

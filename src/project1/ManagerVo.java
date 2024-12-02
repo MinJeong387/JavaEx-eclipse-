@@ -31,6 +31,7 @@ public class ManagerVo {
     private String authorEmail;
     private String publisherEmail;
     private String publisherTel;
+    private String publisherNumber;
     
     
     public ManagerVo() {
@@ -85,6 +86,28 @@ public class ManagerVo {
 		this.customerNameId = customerNameId;
 		this.customerPassword = CustomerPassword;
 	}
+	
+	public ManagerVo(int bookId, String title, String authorName, String authorEmail, String typeName, String publisherName, String publisherNumber, String publisherEmail, String pubDate,
+			int rate, int stock, int locationsId, String rentalDate, String returnDate, String name, String nameId) {
+		super();
+		this.bookId = bookId;
+		this.title = title;
+		this.authorName = authorName;
+		this.authorEmail = authorEmail;
+		this.typeName = typeName;
+		this.publisherName = publisherName;
+		this.publisherNumber = publisherNumber;
+		this.publisherEmail = publisherEmail;
+		this.pubDate = pubDate;
+		this.rentalDate = rentalDate;
+		this.returnDate = returnDate;
+		this.name = name;
+		this.nameId = nameId;
+		this.rate = rate;
+		this.stock = stock;
+		this.locationsId = locationsId;
+	}
+
 
 	public int getBookId() {
 		return bookId;
@@ -297,6 +320,18 @@ public class ManagerVo {
 	public void setCustomerPassword(String customerPassword) {
 		this.customerPassword = customerPassword;
 	}
+
+	
+	
+	public String getPublisherNumber() {
+		return publisherNumber;
+	}
+
+
+	public void setPublisherNumber(String publisherNumber) {
+		this.publisherNumber = publisherNumber;
+	}
+
 
 	@Override
 	public String toString() {

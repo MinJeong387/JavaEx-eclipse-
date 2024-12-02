@@ -27,63 +27,65 @@ public class ManagerDaoImpl implements ManagerDao {
 
 	// 관리자 로그인
 
-	// 전체 도서 목록
-	@Override
-	public List<ManagerVo> getList() {
-		List<ManagerVo> list = new ArrayList<>();
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+	//전체 도서 목록
+		@Override
+		public List<ManagerVo> getList() {
+			List<ManagerVo> list = new ArrayList<>();
+			Connection conn = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+			
+			try {
+				conn = getConnection();
+				stmt = conn.createStatement();
+				
+				String sql = "SELECT Books.id, Books.title, Authors.author_name, Authors.author_email,  "
+						+ "	Types.type_name, Publishers.publisher_name, Publishers.publisher_number, Publishers.publisher_email, Books.pub_date, "
+						+ "	Books.rate, Books.stock, Books.Locations_id, "
+						+ " Rental.rental_date, Rental.return_expect, Customers.name, Customers.name_id "
+						+ "FROM Books "
+						+ "JOIN Types ON Books.type_id = Types.type_id  "
+						+ "JOIN Authors ON Books.author_id = Authors.author_id "
+						+ "JOIN Publishers ON Books.publisher_id = Publishers.publisher_id "
+						+ "LEFT JOIN Rental ON Books.id = Rental.book_id "
+						+ "LEFT JOIN Customers ON Rental.customer_id = Customers.id "
+						+ "ORDER BY Books.id;";
+				rs = stmt.executeQuery(sql);
+				
+				//	각 레코드를 List<UserVo>로 변환
+				while (rs.next()) {
+		            int bookId = rs.getInt("id");
+		            String title = rs.getString("title");
+		            String authorName = rs.getString("author_name");
+		            String authorEmail = rs.getString("author_email");
+		            String typeName = rs.getString("type_name");
+		            String publisherName = rs.getString("publisher_name");
+		            String publisherNumber = rs.getString("publisher_number");
+		            String publisherEmail = rs.getString("publisher_email");
+		            String pubDate = rs.getString("pub_date");
+		            int rate = rs.getInt("rate");
+		            int stock = rs.getInt("stock");
+		            int locationsId = rs.getInt("Locations_id");
+		            String rentalDate = rs.getString("rental_date");
+		            if (rentalDate == null) rentalDate = "null";
+		            String returnExpect = rs.getString("return_expect");
+		            if (returnExpect == null) returnExpect = "null";
+		            String name = rs.getString("name");
+		            if (name == null) name = "null";
+		            String nameId = rs.getString("name_id");
+		            if (nameId == null) nameId = "null";
 
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-
-			String sql = "SELECT Books.id, Books.title, Authors.author_name,  "
-					+ "	Types.type_name, Publishers.publisher_name, Books.pub_date, "
-					+ "	Books.rate, Books.stock, Books.Locations_id, "
-					+ " Rental.rental_date, Rental.return_expect, Customers.name, Customers.name_id " + "FROM Books "
-					+ "JOIN Types ON Books.type_id = Types.type_id  "
-					+ "JOIN Authors ON Books.author_id = Authors.author_id "
-					+ "JOIN Publishers ON Books.publisher_id = Publishers.publisher_id "
-					+ "LEFT JOIN Rental ON Books.id = Rental.book_id "
-					+ "LEFT JOIN Customers ON Rental.customer_id = Customers.id " + "ORDER BY Books.id;";
-			rs = stmt.executeQuery(sql);
-
-			// 각 레코드를 List<UserVo>로 변환
-			while (rs.next()) {
-				int bookId = rs.getInt("id");
-				String title = rs.getString("title");
-				String authorName = rs.getString("author_name");
-				String typeName = rs.getString("type_name");
-				String publisherName = rs.getString("publisher_name");
-				String pubDate = rs.getString("pub_date");
-				int rate = rs.getInt("rate");
-				int stock = rs.getInt("stock");
-				int locationsId = rs.getInt("Locations_id");
-				String rentalDate = rs.getString("rental_date");
-				if (rentalDate == null)
-					rentalDate = "null";
-				String returnExpect = rs.getString("return_expect");
-				if (returnExpect == null)
-					returnExpect = "null";
-				String name = rs.getString("name");
-				if (name == null)
-					name = "null";
-				String nameId = rs.getString("name_id");
-				if (nameId == null)
-					nameId = "null";
-
-				ManagerVo vo = new ManagerVo(bookId, title, authorName, typeName, publisherName, pubDate, rate, stock,
-						locationsId, rentalDate, returnExpect, name, nameId);
-
-				list.add(vo);
+					
+		            ManagerVo vo = new ManagerVo(bookId, title, authorName, authorEmail, typeName, publisherName, publisherNumber, publisherEmail, pubDate, rate, stock, locationsId, rentalDate, returnExpect, name, nameId);
+					
+					list.add(vo);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return list;
 		}
-		return list;
-	}
+		
 
 	// 신규 도서 추가
 	@Override
