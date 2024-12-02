@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class LibraryDaoApp {
 	private static UserVo currentUser;
+	private static ManagerVo currentManager;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -446,24 +447,33 @@ public class LibraryDaoApp {
 		}
 	}
 
+	
 	// 관리자 로그인
 	public static void ManagerIdInput(Scanner sc) {
-
 		System.out.println("관리자 아이디와 비밀번호를 입력해주세요.");
-		System.out.print("관리자 아이디: ");
-		String managerId = sc.next();
-		System.out.print("관리자 비밀번호: ");
-		String managerPassword = sc.next();
-
-		ManagerDao vo = new ManagerDaoImpl();
-//		List<ManagerVo> list = vo.search(manager_nameid, manager_password);
-
-		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
-
-		System.out.println("관리자로 확인되었습니다. 관리자 화면으로 전환하겠습니다.");
-		ManagerPage(sc);
-
+	    System.out.print("관리자 아이디: ");
+	    String customerNameId = sc.next();
+	    System.out.print("관리자 비밀번호: ");
+	    String customerPassword = sc.next();
+	    
+	    // 관리자 계정만 허용
+	    if (!"master".equals(customerNameId)) {
+	        System.out.println("관리자 계정만 로그인이 가능합니다.");
+	        return;
+	    }
+	    
+	    ManagerDao dao = new ManagerDaoImpl();
+	    List<ManagerVo> list = dao.searchmaster(customerNameId, customerPassword);
+	    
+	    if (list == null || list.isEmpty()) {
+	        System.out.println("로그인 실패: 비밀번호가 올바르지 않습니다.\n");
+	    } else {
+	        currentManager = list.get(0); // list의 첫 번째 요소를 가져옴
+	        System.out.println("로그인 성공! 관리자 화면으로 이동합니다.\n");
+	        ManagerPage(sc);
+	    }
 	}
+	
 
 	// 관리자 화면
 	public static void ManagerPage(Scanner sc) {
@@ -529,10 +539,10 @@ public class LibraryDaoApp {
 		Iterator<ManagerVo> iter = list.iterator();
 
 		String header = String.format(
-				"| %-4s | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-25s | %-12s | %-12s | %-12s | %-15s | %-15s | %-5s | %-5s | %-8s |",
+				"| %-4s | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-20s | %-12s | %-12s | %-12s | %-10s | %-15s | %-5s | %-5s | %-8s",
 				"ID", "제목", "저자", "저자 이메일", "장르", "출판사", "출판사 전화번호", "출판사 이메일", "출판일", "대여일", "반납일", "대여자 이름",
 				"대여자 아이디", "평점", "재고", "위치 ID");
-		String separator = "----".repeat(75);
+		String separator = "---".repeat(100);
 
 		System.out.println(separator);
 		System.out.println(header);
@@ -543,14 +553,14 @@ public class LibraryDaoApp {
 			ManagerVo vo = iter.next();
 			// 각 도서 정보를 테이블 형식으로 출력
 			System.out.printf(
-					"| %-4d | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-25s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5d | %-5d | %-8d |%n",
+					"| %-4d | %-25s | %-20s | %-25s | %-10s | %-20s | %-20s | %-25s | %-12s | %-12s | %-12s | %-15s | %-15s | %-5d | %-5d | %-8d%n",
 					vo.getBookId(), vo.getTitle(), vo.getAuthorName(), vo.getAuthorEmail(), vo.getTypeName(),
 					vo.getPublisherName(), vo.getPublisherNumber(), vo.getPublisherEmail(), vo.getPubDate(),
 					vo.getRentalDate(), vo.getReturnDate(), vo.getName(), vo.getNameId(), vo.getRate(), vo.getStock(),
 					vo.getLocationsId());
-		}
 
-		System.out.println(separator);
+			System.out.println(separator);
+		}
 	}
 
 	// 신규 도서 추가
@@ -675,12 +685,19 @@ public class LibraryDaoApp {
 		List<ManagerVo> list = dao.getCustomerList();
 		Iterator<ManagerVo> iter = list.iterator();
 
+		System.out.println("----".repeat(30));
+		System.out.printf(" %-3s | %-7s %-26s %-14s %-12s %-16s %-15s%n", "ID", "이름", "이메일", "전화번호", "생년월일", "계정 ID",
+				"계정 비밀번호");
+		System.out.println("----".repeat(30));
+
 		// 회원 목록 출력
 		while (iter.hasNext()) {
 			ManagerVo vo = iter.next();
 			// 각 도서 정보를 테이블 형식으로 출력
-			System.out.printf("%d, %s, %s, %s, %s, %s, %s%n", vo.getCustomerId(), vo.getCustomerName(), vo.getEmail(),
-					vo.getPhoneNumber(), vo.getBirthDate(), vo.getCustomerNameId(), vo.getCustomerpassword());
+			System.out.println();
+			System.out.printf(" %-3d | %-7s %-27s %-15s %-14s %-17s %-18s%n", vo.getCustomerId(), vo.getCustomerName(),
+					vo.getEmail(), vo.getPhoneNumber(), vo.getBirthDate(), vo.getCustomerNameId(),
+					vo.getCustomerpassword());
 		}
 
 	}
@@ -698,6 +715,12 @@ public class LibraryDaoApp {
 			if (!dao.isCustomerExists(id)) {
 				System.out.println("회원이 없습니다. 회원ID를 다시 입력해주세요.\n");
 				continue;
+			}
+
+			// 관리자 ID는 삭제 불가 (id = 1)
+			if (id == 1) {
+				System.out.println("관리자 계정은 삭제할 수 없습니다.");
+				break;
 			}
 
 			ManagerVo user = new ManagerVo(id);

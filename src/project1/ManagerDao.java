@@ -18,4 +18,7 @@ public interface ManagerDao {
 	public boolean insertPublisher(ManagerVo vo);	// 새로운 출판사 있는경우 추가
 	
 	
+	
+	public List<ManagerVo> searchmaster(String name_id, String password);
+	
 }
