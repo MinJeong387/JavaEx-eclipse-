@@ -197,26 +197,24 @@ public class UserDaoImpl implements UserDao {
 					+ "WHERE authors.author_name LIKE ? ";
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, author_name);
+			pstmt.setString(1, "%" + author_name + "%");
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
-				if (rs.getString(2).equals(author_name)) {
+				String title = rs.getString(1);
+				String authorName = rs.getString(2);
+				String publisher = rs.getString(3);
+				String pubdate = rs.getString(4);
+				Integer rate = rs.getInt(5);
+				Integer locationId = rs.getInt(6);
+				String type = rs.getString(7);
+				Integer book_id = rs.getInt(8);
 
-					String title = rs.getString(1);
-					String authorName = rs.getString(2);
-					String publisher = rs.getString(3);
-					String pubdate = rs.getString(4);
-					Integer rate = rs.getInt(5);
-					Integer locationId = rs.getInt(6);
-					String type = rs.getString(7);
-					Integer book_id = rs.getInt(8);
+				UserVo vo = new UserVo(title, authorName, publisher, pubdate, rate, locationId, type, book_id);
+				list.add(vo);
 
-					UserVo vo = new UserVo(title, authorName, publisher, pubdate, rate, locationId, type, book_id);
-					list.add(vo);
-				}
 			}
 		}
 
@@ -254,26 +252,23 @@ public class UserDaoImpl implements UserDao {
 					+ "WHERE books.title LIKE ? ";
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, title);
+			pstmt.setString(1, "%" + title + "%");
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
-				if (rs.getString(1).equals(title)) {
+				String Title = rs.getString(1);
+				String authorName = rs.getString(2);
+				String publisher = rs.getString(3);
+				String pubdate = rs.getString(4);
+				Integer rate = rs.getInt(5);
+				Integer locationId = rs.getInt(6);
+				String type = rs.getString(7);
+				Integer book_id = rs.getInt(8);
 
-					String Title = rs.getString(1);
-					String authorName = rs.getString(2);
-					String publisher = rs.getString(3);
-					String pubdate = rs.getString(4);
-					Integer rate = rs.getInt(5);
-					Integer locationId = rs.getInt(6);
-					String type = rs.getString(7);
-					Integer book_id = rs.getInt(8);
-
-					UserVo vo = new UserVo(Title, authorName, publisher, pubdate, rate, locationId, type, book_id);
-					list.add(vo);
-				}
+				UserVo vo = new UserVo(Title, authorName, publisher, pubdate, rate, locationId, type, book_id);
+				list.add(vo);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -766,8 +761,7 @@ public class UserDaoImpl implements UserDao {
 			conn = getConnection();
 
 			// 책의 반납 예정일을 가져오는 쿼리 (반납일이 NULL인 경우만)
-			String sql = "SELECT return_expect FROM Rental WHERE book_id = ?";
-			// "SELECT return_expect FROM Rental WHERE book_id = ? AND real_return IS NULL
+			String sql = "SELECT return_expect FROM Rental WHERE book_id = ? AND real_return IS NULL";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, book_id);
 

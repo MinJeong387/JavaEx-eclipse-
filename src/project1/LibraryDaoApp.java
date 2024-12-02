@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.Iterator;
 // import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,7 +18,7 @@ public class LibraryDaoApp {
 
 //		ListBooks(sc);
 
-		Welcome(sc);
+//		Welcome(sc);
 
 //		CustomerIdInput(sc);
 
@@ -39,6 +40,13 @@ public class LibraryDaoApp {
 //		RentalFee();
 
 		// displayBooks();
+
+//		ManagerPage(sc); // 관리자화면
+//		ManagerListBooks(); // 전체도서리스트
+		BookAdd(sc); // 도서추가
+//		BookDelete(sc); // 도서삭제
+//		getCustomerList(); // 전체회원리스트
+//		UserDelete(sc); // 회원삭제
 
 		sc.close();
 	}
@@ -173,21 +181,6 @@ public class LibraryDaoApp {
 		}
 	}
 
-	public static void ManagerIdInput(Scanner sc) {
-
-		System.out.println("관리자 아이디와 비밀번호를 입력해주세요.");
-		System.out.print("관리자 아이디: ");
-		String managerId = sc.next();
-		System.out.print("관리자 비밀번호: ");
-		String managerPassword = sc.next();
-
-		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
-
-		System.out.println("관리자로 확인되었습니다. 관리자 화면으로 전환하겠습니다.");
-		ManagerBookAdd(sc);
-
-	}
-
 	public static void ManagerBookAdd(Scanner sc) {
 
 		System.out.println("추가할 도서의 정보를 입력해주세요.");
@@ -195,7 +188,7 @@ public class LibraryDaoApp {
 		System.out.print("도서명: ");
 		String title = sc.next();
 
-		System.out.print("출판일: ");
+		System.out.print("출판일(ex.1994-00-00): ");
 		String pub_date = sc.next();
 		System.out.print("별점: ");
 		String rate = sc.next();
@@ -210,7 +203,7 @@ public class LibraryDaoApp {
 		System.out.print("작가: ");
 		String author_name = sc.next();
 		System.out.print("출판사: ");
-		String publisher_name = sc.next();
+		String publisher_name = sc.nextLine();
 
 		System.out.println("해당 도서가 도서목록에 저장되었습니다.");
 
@@ -419,16 +412,16 @@ public class LibraryDaoApp {
 
 				if (list.isEmpty()) {
 					System.out.println("반납 대상 도서가 아닙니다. 도서 번호 다시 입력해주세요.\n");
-
 				} else {
 					System.out.println("해당 도서 반납 완료 되었습니다.");
+
+					int overdueDays = dao.OverDays(book_id); // 반납 초과일 변수
+//					System.out.println("Overdue Days: " + overdueDays); // 디버깅용 로그 추가
+
 					dao.returnBook(book_id);
 
 					UserVo vo = new UserVo(book_id);
 					dao.stockUpdate2(vo);
-
-					int overdueDays = dao.OverDays(book_id); // 반납 초과일 변수
-//					System.out.println("Overdue Days: " + overdueDays); // 디버깅용 로그 추가
 
 					if (overdueDays > 0) {
 						int lateFee = overdueDays * 10000; // 연체료 계산
@@ -453,7 +446,282 @@ public class LibraryDaoApp {
 		}
 	}
 
-	public static void rentalFee() {
+	// 관리자 로그인
+	public static void ManagerIdInput(Scanner sc) {
+
+		System.out.println("관리자 아이디와 비밀번호를 입력해주세요.");
+		System.out.print("관리자 아이디: ");
+		String managerId = sc.next();
+		System.out.print("관리자 비밀번호: ");
+		String managerPassword = sc.next();
+
+		ManagerDao vo = new ManagerDaoImpl();
+//		List<ManagerVo> list = vo.search(manager_nameid, manager_password);
+
+		System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+
+		System.out.println("관리자로 확인되었습니다. 관리자 화면으로 전환하겠습니다.");
+		ManagerPage(sc);
 
 	}
+
+	// 관리자 화면
+	public static void ManagerPage(Scanner sc) {
+
+		while (true) {
+			System.out.println("----".repeat(10));
+			System.out.println("< 관리자 화면 >");
+			System.out.println("원하시는 메뉴 번호를 입력하세요.");
+			System.out.println("----".repeat(10));
+			System.out.println("1. 전체 도서목록 확인\n2. 신규 도서 추가\n3. 도서 삭제\n4. 전체 회원목록 확인\n5. 회원 삭제\n6. 관리자화면 종료");
+			System.out.print("\n메뉴 번호 : ");
+			int manager = 0;
+
+			try {
+				manager = sc.nextInt();
+				sc.nextLine();
+
+				switch (manager) {
+				case 1:
+					System.out.println("1. 전체 도서목록 확인");
+					ManagerListBooks(); // 도서 목록 확인
+					break;
+
+				case 2:
+					System.out.println("2. 신규 도서 추가");
+					BookAdd(sc); // 신규 도서 추가
+					break;
+
+				case 3:
+					System.out.println("3. 도서 삭제");
+					BookDelete(sc); // 도서 삭제
+					break;
+
+				case 4:
+					System.out.println("4. 전체 회원 목록");
+					getCustomerList(); // 회원 목록 확인
+					break;
+
+				case 5:
+					System.out.println("5. 회원 삭제");
+					UserDelete(sc); // 회원 삭제
+					break;
+
+				case 6:
+					System.out.println("6. 관리자화면 종료\n\n");
+					Welcome(sc); // 기본 화면
+				default:
+					System.out.println("없는 메뉴입니다. 숫자를 다시 입력해주세요.");
+					break;
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("유효하지 않은 입력입니다. 숫자를 입력해주세요.");
+				sc.nextLine();
+			}
+		}
+	}
+
+	// 전체 도서 목록
+	public static void ManagerListBooks() {
+
+		ManagerDao dao = new ManagerDaoImpl();
+		List<ManagerVo> list = dao.getList();
+		Iterator<ManagerVo> iter = list.iterator();
+
+		String header = String.format(
+				"| %-4s | %-25s | %-20s | %-10s | %-20s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5s | %-5s | %-8s |",
+				"ID", "제목", "저자", "장르", "출판사", "출판일", "대여일", "반납일", "대여자 이름", "대여자 아이디", "평점", "재고", "위치 ID");
+		String separator = "----".repeat(55);
+
+		System.out.println(separator);
+		System.out.println(header);
+		System.out.println(separator);
+
+		// 도서 목록 출력
+		while (iter.hasNext()) {
+			ManagerVo vo = iter.next();
+			// 각 도서 정보를 테이블 형식으로 출력
+			System.out.printf(
+					"| %-4d | %-25s | %-20s | %-10s | %-20s | %-12s | %-12s | %-12s | %-15s | %-20s | %-5d | %-5d | %-8d |%n",
+					vo.getBookId(), vo.getTitle(), vo.getAuthorName(), vo.getTypeName(), vo.getPublisherName(),
+					vo.getPubDate(), vo.getRentalDate(), vo.getReturnDate(), vo.getName(), vo.getNameId(), vo.getRate(),
+					vo.getStock(), vo.getLocationsId());
+		}
+
+		System.out.println(separator);
+	}
+
+	// 신규 도서 추가
+	public static void BookAdd(Scanner sc) {		
+		System.out.println("추가할 도서의 정보를 입력해주세요.");
+		System.out.print("도서명: ");
+		String title = sc.nextLine();
+
+		// 수정
+		System.out.print("작가 이름: ");
+		String authorName = sc.nextLine();
+		System.out.print("작가 이메일: ");
+		String authorEmail = sc.nextLine();
+		
+		
+
+		System.out.print("장르ID: ");
+		int typeId = sc.nextInt();
+		sc.nextLine();
+		System.out.print("출판일 (YYYY-MM-DD): ");
+		String pubDate = sc.next();
+
+		
+		// 수정
+		System.out.print("출판사 이름: ");
+		sc.nextLine();
+		String publisherName = sc.nextLine();
+		
+		System.out.print("출판사 전화번호: ");
+		String publisherTel = sc.nextLine();
+		
+		System.out.print("출판사 이메일: ");
+		String publisherEmail = sc.nextLine();
+
+		
+		System.out.print("별점 (정수로 입력): ");
+		int rate = sc.nextInt();
+		System.out.print("위치ID (고유값이어야 함): ");
+		int locationsId = sc.nextInt();
+		
+		ManagerDaoImpl dao = new ManagerDaoImpl();		
+		
+		ManagerVo newAuthor = new ManagerVo(authorName, authorEmail);
+		dao.insertAuthor(newAuthor);
+		
+		ManagerVo newPublisher = new ManagerVo(publisherName, publisherTel, publisherEmail);
+		dao.insertPublisher(newPublisher);
+		
+		
+		// ManagerVo 객체 생성
+		ManagerVo book = new ManagerVo(title, pubDate, rate, locationsId, typeId, publisherName, authorName);
+	
+		
+	
+		if (dao.insert(book)) {
+			System.out.println("도서가 성공적으로 추가되었습니다.");
+
+		} else {
+			System.out.println("도서 추가에 실패했습니다. Location ID 중복일 수 있습니다.");
+		}
+		 
+		 
+		/*
+		boolean success = dao.insert(book);
+
+		if (success) {
+			System.out.println("도서가 성공적으로 추가되었습니다.");
+		} else {
+			System.out.println("도서 추가에 실패했습니다.");
+		}
+		*/
+		
+		/*
+		boolean authorAdded = dao.insertAuthor(newAuthor);
+		boolean publisherAdded = dao.insertPublisher(newPublisher);
+
+		System.out.println("작가 추가 성공 여부: " + authorAdded);
+		System.out.println("출판사 추가 성공 여부: " + publisherAdded);
+	
+		*/
+		
+		
+		sc.nextLine();
+	}
+
+	// 도서 삭제
+	public static void BookDelete(Scanner sc) {
+
+		while (true) {
+			System.out.println("삭제할 도서의 ID를 입력해주세요.");
+			System.out.print("도서ID: ");
+			int id = sc.nextInt();
+
+			ManagerDaoImpl dao = new ManagerDaoImpl();
+
+			// 도서 존재 여부 확인
+			if (!dao.isBookExists(id)) {
+				System.out.println("도서가 없습니다. 도서ID를 다시 입력해주세요.\n");
+				continue;
+			}
+
+			// 도서 삭제
+			ManagerVo book = new ManagerVo(id);
+			boolean success = dao.deleteBook(book);
+
+			if (success) {
+				System.out.println("도서가 삭제되었습니다.");
+			} else {
+				System.out.println("도서 삭제에 실패했습니다.");
+			}
+
+			break;
+		}
+
+		sc.nextLine();
+	}
+
+//		public static void UserUpdate(Scanner sc) {
+//			
+//			System.out.println("변경할 회원의 ID를 입력해수제요.");
+//			System.out.print("회원ID: ");
+//			
+//			int id = sc.nextInt();
+//			
+//			ManagerVo user = new ManagerVo(id);
+//			
+//			
+//		}
+
+	// 전체 회원 목록
+	public static void getCustomerList() {
+
+		ManagerDao dao = new ManagerDaoImpl();
+		List<ManagerVo> list = dao.getCustomerList();
+		Iterator<ManagerVo> iter = list.iterator();
+
+		// 회원 목록 출력
+		while (iter.hasNext()) {
+			ManagerVo vo = iter.next();
+			// 각 도서 정보를 테이블 형식으로 출력
+			System.out.printf("%d, %s, %s, %s, %s, %s, %s%n", vo.getCustomerId(), vo.getCustomerName(), vo.getEmail(),
+					vo.getPhoneNumber(), vo.getBirthDate(), vo.getCustomerNameId(), vo.getCustomerpassword());
+		}
+
+	}
+
+	// 회원 삭제
+	public static void UserDelete(Scanner sc) {
+		while (true) {
+			System.out.println("삭제할 회원의 ID를 입력해주세요.");
+			System.out.print("회원ID: ");
+			int id = sc.nextInt();
+
+			ManagerDaoImpl dao = new ManagerDaoImpl();
+
+			// 회원 존재 여부 확인
+			if (!dao.isCustomerExists(id)) {
+				System.out.println("회원이 없습니다. 회원ID를 다시 입력해주세요.\n");
+				continue;
+			}
+
+			ManagerVo user = new ManagerVo(id);
+			boolean success = dao.deleteCustomer(user);
+
+			// 회원 삭제
+			if (success) {
+				System.out.println("회원이 삭제되었습니다.");
+			} else {
+				System.out.println("회원 삭제에 실패했습니다.");
+			}
+			break;
+		}
+		sc.nextLine();
+	}
+
 }
