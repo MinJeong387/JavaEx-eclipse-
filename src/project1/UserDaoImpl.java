@@ -668,57 +668,6 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
-	/*
-	 * 
-	 * @Override public boolean Deadline(Date date) { List<UserVo> list = new
-	 * ArrayList<>();
-	 * 
-	 * Connection conn = null; PreparedStatement pstmt = null; ResultSet rs = null;
-	 * 
-	 * try { conn = getConnection(); String sql =
-	 * "SELECT books.id, books.title, authors.author_name, publishers.publisher_name, pub_date, rate, Locations_id, types.type_name\r\n"
-	 * + "FROM books JOIN authors ON books.author_id = authors.author_id\r\n" +
-	 * "			JOIN types ON books.type_id = types.type_id\r\n" +
-	 * "			JOIN publishers ON books.publisher_id = publishers.publisher_id\r\n"
-	 * + "WHERE books.id LIKE ? ";
-	 * 
-	 * pstmt = conn.prepareStatement(sql); pstmt.setInt(1, book_id);
-	 * 
-	 * rs = pstmt.executeQuery();
-	 * 
-	 * boolean rentalDate;
-	 * 
-	 * while (rs.next()) {
-	 * 
-	 * if (rs.getInt(1) == book_id) {
-	 * 
-	 * rentalDate = "True"; } else { rentalDate = "False"; } } }
-	 * 
-	 * catch (SQLException e) { e.printStackTrace(); } finally { try { if (rs !=
-	 * null) rs.close(); if (pstmt != null) pstmt.close(); if (conn != null)
-	 * conn.close(); } catch (Exception e) { } }
-	 * 
-	 * return rentalDate; }
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @Override public boolean update(UserVo vo) { // TODO Auto-generated method
-	 * stub return false; }
-	 * 
-	 * @Override public UserVo get(Long id) { // TODO Auto-generated method stub
-	 * return null; }
-	 * 
-	 * @Override public boolean delete(Long id) { // TODO Auto-generated method stub
-	 * return false; }
-	 * 
-	 * @Override public List<UserVo> getListC() { // TODO Auto-generated method stub
-	 * return null; }
-	 * 
-	 */
 
 	// 책 반납 처리
 	@Override

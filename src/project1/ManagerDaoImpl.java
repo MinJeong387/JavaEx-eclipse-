@@ -205,34 +205,7 @@ public class ManagerDaoImpl implements ManagerDao {
 		return success;
 	}
 
-//	//회원정보 수정 - 삭제해도 됨!
-//	public boolean UpdateCustomer(ManagerVo vo) {
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		boolean success = false;
-//		
-//		try {
-//			conn = getConnection();
-//			//회원 정보 출력
-//			String customerSQL = "SELECT * FROM CUSTOMERS WHERE id = ?;";
-//			//회원 정보 변경
-//			String updateName = "UPDATE CUSTOMERS SET name = '?' WHERE id = ?;";
-//			pstmt = conn.prepareStatement(updateName);
-//	        pstmt.setString(1, vo.getName());
-//	        pstmt.setInt(2, vo.getId());
-//	        
-//			String updateEmail = "UPDATE CUSTOMERS SET email = '?' WHERE id = ?;";
-//			String updatePhoneNum = "UPDATE CUSTOMERS SET phone_number = '?' WHERE id = ?;";
-//			String updateBirth = "UPDATE CUSTOMERS SET birth_date = '?' WHERE id = ?;";
-//			String updateNameId = "UPDATE CUSTOMERS SET name_id = '?' WHERE id = ?;";
-//			String updatePassword = "UPDATE CUSTOMERS SET password = '?' WHERE id = ?;";
-//			
-//		} catch() {
-//			
-//		}
-//		
-//		
-//	}
+
 
 	// 전체 회원 목록
 	@Override

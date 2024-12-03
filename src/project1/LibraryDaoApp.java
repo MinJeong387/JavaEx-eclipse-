@@ -466,7 +466,7 @@ public class LibraryDaoApp {
 	    List<ManagerVo> list = dao.searchmaster(customerNameId, customerPassword);
 	    
 	    if (list == null || list.isEmpty()) {
-	        System.out.println("로그인 실패: 비밀번호가 올바르지 않습니다.\n");
+	        System.out.println("로그인 실패: 로그인 정보가 올바르지 않습니다.\n");
 	    } else {
 	        currentManager = list.get(0); // list의 첫 번째 요소를 가져옴
 	        System.out.println("로그인 성공! 관리자 화면으로 이동합니다.\n");

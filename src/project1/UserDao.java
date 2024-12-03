@@ -15,20 +15,17 @@ public interface UserDao {
 	public List<UserVo> search3(String title);						// 제목 검색
 	public List<UserVo> search4(String publisher);					// 출판사 검색
 	public List<UserVo> search5(String type);						// 장르 검색
-	
-	
+		
 	// 회원가입
 	public boolean insert(UserVo vo);
 	
-	
 	// 도서 대여
 	public List<UserVo> searchRentalBook(int book_id);
-	
+
 	public boolean stockUpdate(UserVo vo);							// stock 0으로 전환
 	
 	public List<UserVo> findCustomerUserId(String name_id);
 	public boolean insertRental(UserVo vo);							// rental 테이블에 정보 추가
-	
 	
 	
 	// 도서 반납
@@ -41,7 +38,6 @@ public interface UserDao {
 	
 	// 신규도서 추천
 	public List<UserVo> getNewBooks();
-	
 	
 	// 매니저권한 : 도서등록		
 	public List<UserVo> getListC();

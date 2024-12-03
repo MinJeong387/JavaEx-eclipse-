@@ -21,27 +21,17 @@ public class UserVo {
 
 	private Integer id;
 	private Integer customer_id;
-	
 
-	
-
-	/*
-	 * private Date date; private Date today;
-	 */
 
 	private java.sql.Date today;
 	private java.sql.Date date;
 
 
-
-	
 	
 	public UserVo(int id) {
 		super();
 		this.id = id;
 	}
-
-
 
 	public UserVo(String title, String authorName) {
 		super();
